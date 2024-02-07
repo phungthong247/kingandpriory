@@ -1,0 +1,133 @@
+.cms-index-index{
+	.header-container{
+		position: static;
+		.header{
+			padding: 0;
+			background: #fff;
+		}
+	}
+	.container{
+		max-width: 1430px;
+		padding: 0 15px;
+	}
+}
+.header-container{
+	.header{
+		.for-full-withmenu{
+			max-width: 1430px;
+			margin: auto;
+		    padding: 10px 15px;
+		}
+	    .for-full-withmenu{
+	    	.logo{
+				flex: unset;
+				flex-basis: auto;
+	    	}
+	    	.actions-header{
+    		    flex: 1 1 0;
+	    	}
+	    }
+		&.sticky{
+			.for-full-withmenu{
+				max-width: 1430px;
+				margin: auto;
+				padding: 10px 15px;
+			}
+		}
+	}
+}
+.wrapper_slider {
+	.owl-theme{
+		.owl-controls{
+			.owl-pagination{
+			    left: 0;
+			    right: 0;
+			    margin: 0 auto;
+			    text-align: center;
+			}
+		}
+	}
+}
+.shipping-support-home{
+	margin-top: 80px;
+	margin-bottom: 110px;
+	padding-bottom: 62px;
+	position: relative;
+	&:before{
+		content: '';
+		background: @bordercolor;
+		height: 1px;
+		position: absolute;
+		bottom: 0;
+		left: 80px;
+		right: 80px;
+	}
+	.col-content{
+		h4{
+			color: @headingcolor;
+			margin: 25px 0;
+		}
+		p{
+			color: @textcolor;
+		}
+	}
+}
+.rokan-newproduct.select-element {
+	position: relative;
+    padding-bottom: 74px;
+    margin-bottom: 110px;
+	&:before{
+		content: '';
+		background: @bordercolor;
+		height: 1px;
+		position: absolute;
+		bottom: 0;
+		left: 80px;
+		right: 80px;
+	}
+	.owl-theme{
+		.owl-controls{
+			display: none !important;
+		}
+	}
+}
+.footer-link-contact{
+	text-align: right;
+}
+@media (min-width: 1199px){
+	.homepageslider4{
+		max-width: 100%;
+		padding: 0 70px;
+	}
+}
+@media (max-width: 1199px){
+	.shipping-support-home{
+		&:before{
+			left: 15px;
+			right: 15px;
+		}
+	}
+	.rokan-newproduct.select-element{
+		&:before{
+			left: 15px;
+			right: 15px;
+		}
+	}
+}
+@media (max-width: 992px){
+	.header-container{
+		.header {
+			.for-full-withmenu {
+				.nav-sections{
+					flex: unset;
+				}
+				.actions-header{
+					flex: unset;
+				}
+			}
+		}
+	}
+	.footer-link-contact{
+		text-align: left;
+	}
+}

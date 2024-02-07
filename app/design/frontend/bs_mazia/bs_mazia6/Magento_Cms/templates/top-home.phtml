@@ -1,0 +1,25 @@
+<div class="top-content-home">
+	<div class="shipping-support-home">
+		<div class="container">
+			<?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('shipping_support_home_4')->toHtml();?>
+		</div>
+	</div>
+	<div class="section-element categories_tab">
+		<?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('categories_tab')->toHtml();?>
+	</div>
+	<div class="box-blog border-top">
+		<div class="container">
+			<?php echo $block->getLayout()->createBlock('Rokanthemes\Blog\Block\Sidebar\Recent')->setTemplate('Rokanthemes_Blog::sidebar/slider.phtml')->toHtml();?>
+		</div>
+	</div>	
+	<div class="block_newsletter2">
+		<div class="container">
+			<div class="newsletter_home">
+				<?php  echo $this->getLayout()->createBlock('Magento\Newsletter\Block\Subscribe')->setTemplate('Magento_Newsletter::subscribe.phtml')->toHtml(); ?>
+			</div>	
+		</div>
+	</div>
+	<div class="Instagram_static">
+		<?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('Instagram_static')->toHtml();?>
+	</div>
+</div>

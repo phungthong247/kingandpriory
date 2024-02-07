@@ -1,0 +1,18 @@
+<div id="back-top" class=""><i class="fa fa-angle-double-up"></i></div>
+<div class="footer-container">
+	<div class="footer-static-container footer-static-container2">
+		<div class="container">
+			<div class="footer_introduce">
+				<?php echo $this->getChildHtml("footer_static_4"); ?>
+				<div class="newsletter_home">
+					<?php  echo $this->getLayout()->createBlock('Magento\Newsletter\Block\Subscribe')->setTemplate('Magento_Newsletter::subscribe.phtml')->toHtml(); ?>
+				</div>	
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	window.onload = function () {
+		document.body.className += " preloaded";
+	}
+</script>

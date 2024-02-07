@@ -1,0 +1,28 @@
+<div class="top-content-home">
+	<div class="Home_Static_text">
+		<?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('Home_Static_text')->toHtml();?>
+	</div>
+	<div class="rokan-newproduct select-element">
+		<div class="container">
+			<?php echo $block->getLayout()->createBlock('Rokanthemes\Newproduct\Block\Newproduct')->setTemplate('Rokanthemes_Newproduct::newproduct.phtml')->toHtml();?> 
+		</div>
+	</div>
+	<div class="section-element banner-middle">
+			<?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('banner_middle_2')->toHtml();?>
+	</div>
+	<div class="section-element categories_tab">
+		<?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('categories_tab')->toHtml();?>
+	</div>
+	<div class="box-blog border-top">
+		<div class="container">
+			<?php echo $block->getLayout()->createBlock('Rokanthemes\Blog\Block\Sidebar\Recent')->setTemplate('Rokanthemes_Blog::sidebar/slider.phtml')->toHtml();?>
+		</div>
+	</div>	
+	<div class="block_newsletter2">
+		<div class="container">
+			<div class="newsletter_home">
+				<?php  echo $this->getLayout()->createBlock('Magento\Newsletter\Block\Subscribe')->setTemplate('Magento_Newsletter::subscribe.phtml')->toHtml(); ?>
+			</div>	
+		</div>
+	</div>
+</div>

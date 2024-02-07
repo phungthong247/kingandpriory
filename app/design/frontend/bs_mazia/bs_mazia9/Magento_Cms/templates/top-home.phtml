@@ -1,0 +1,15 @@
+<div class="top-content-home">
+	<div class="section-element categories_tab">
+		<?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('categories_tab_3')->toHtml();?>
+	</div>
+	<div class="block_newsletter2">
+		<div class="container">
+			<div class="newsletter_home">
+				<?php  echo $this->getLayout()->createBlock('Magento\Newsletter\Block\Subscribe')->setTemplate('Magento_Newsletter::subscribe.phtml')->toHtml(); ?>
+			</div>	
+		</div>
+	</div>
+	<div class="shipping-support-home row">
+		<?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('shipping_support_home')->toHtml();?>
+	</div>
+</div>

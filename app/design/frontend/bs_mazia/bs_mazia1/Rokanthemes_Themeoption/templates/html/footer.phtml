@@ -1,0 +1,36 @@
+<div id="back-top" class=""><i class="fa fa-angle-double-up"></i></div>
+<div class="footer-container">
+	<div class="footer-static-container">
+		<div class="container">
+			<div class="footer_introduce">
+				<?php echo $this->getChildHtml("footer_static"); ?>
+			</div>
+		</div>
+	</div>
+	<div class="footer-bottom">
+		<div class="container">
+			<div class="border-top">
+				<div class="row">
+					<div class="col-md-6 col-sm-7"> 
+						<div class="footer_menu">
+						<?php echo $this->getChildHtml("footer_menu"); ?>
+						</div>
+						<div class="copyright">
+							<?php  echo $this->getLayout()->createBlock("Rokanthemes\Themeoption\Block\Customcss")->setTemplate("html/copyright.phtml")->toHtml() ?>
+						</div>
+					</div>
+					<div class="col-md-6 col-sm-5"> 
+						<div class="social-link">
+						<?php echo $this->getChildHtml("social_block"); ?>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	window.onload = function () {
+		document.body.className += " preloaded";
+	}
+</script>

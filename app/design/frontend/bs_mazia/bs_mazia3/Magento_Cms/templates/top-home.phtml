@@ -1,0 +1,27 @@
+<div class="top-content-home">
+	<div class="content-home3">
+		<div class="section-element banner-top-home">
+			<?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('home_category_thumnail')->toHtml();?>
+		</div>
+		<div class="rokan-producttab select-element">
+			<div class="container">
+					<?php echo $block->getLayout()->createBlock('Rokanthemes\ProductTab\Block\Producttab')->setTemplate('Rokanthemes_ProductTab::producttab.phtml')->toHtml();?> 
+			</div>
+		</div>
+	</div>
+	<div class="banner-categoriesthumb-middle select-element">
+		<div class="container">
+			<?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('banner_categoriesthumb_middle')->toHtml();?>
+		</div>
+	</div>
+	<div class="block_newsletter">
+		<div class="container">
+			<div class="newsletter_home">
+				<?php  echo $this->getLayout()->createBlock('Magento\Newsletter\Block\Subscribe')->setTemplate('Magento_Newsletter::subscribe.phtml')->toHtml(); ?>
+			</div>	
+			<div class="shipping-support-home">
+				<?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('shipping_support_home3')->toHtml();?>
+			</div>
+		</div>
+	</div>
+</div>
