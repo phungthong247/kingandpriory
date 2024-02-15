@@ -8,31 +8,41 @@
     ],
     "config": {
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "magento/composer-dependency-version-audit-plugin": true,
+            "magento/magento-composer-installer": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "magento/inventory-composer-installer": true,
+            "magento/composer-root-update-plugin": true
+        }
     },
     "require": {
         "elgentos/regenerate-catalog-urls": "^0.2.6",
-        "firebear/importexportfree": "^1.1",
-        "magento/data-migration-tool": "2.3.5",
-        "magento/product-community-edition": "2.3.5-p1",
+        "m2epro/magento2-extension": "^1.58",
+        "magento/composer-dependency-version-audit-plugin": "~0.1",
+        "magento/composer-root-update-plugin": "~2.0",
+        "magento/product-community-edition": "2.4.6",
         "mageplaza/module-core": "^1.5",
         "mageplaza/module-smtp": "^4.7",
-        "stripe/stripe-payments": "^2.1"
+        "stripe/module-payments": "^3.5",
+        "stripe/stripe-payments": "^3.5",
+        "webshopapps/module-matrixrate": "^20.4"
     },
     "require-dev": {
-        "allure-framework/allure-phpunit": "~1.2.0",
-        "dealerdirect/phpcodesniffer-composer-installer": "^0.5.0",
-        "friendsofphp/php-cs-fixer": "~2.14.0",
-        "lusitanian/oauth": "~0.8.10",
+        "allure-framework/allure-phpunit": "^2",
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.7",
+        "dg/bypass-finals": "^1.4",
+        "friendsofphp/php-cs-fixer": "^3.8",
+        "lusitanian/oauth": "^0.8",
         "magento/magento-coding-standard": "*",
-        "magento/magento2-functional-testing-framework": "~2.6.4",
-        "pdepend/pdepend": "2.5.2",
-        "phpcompatibility/php-compatibility": "^9.3",
-        "phpmd/phpmd": "@stable",
-        "phpstan/phpstan": "^0.12.2",
-        "phpunit/phpunit": "~6.5.0",
-        "sebastian/phpcpd": "~3.0.0",
-        "squizlabs/php_codesniffer": "~3.4.0"
+        "magento/magento2-functional-testing-framework": "^4.2.1",
+        "pdepend/pdepend": "^2.10",
+        "phpmd/phpmd": "^2.12",
+        "phpstan/phpstan": "^1.9",
+        "phpunit/phpunit": "^9.5",
+        "sebastian/phpcpd": "^6.0",
+        "symfony/finder": "^5.4"
     },
     "conflict": {
         "gene/bluefoot": "*"
@@ -41,8 +51,7 @@
         "psr-4": {
             "Magento\\Framework\\": "lib/internal/Magento/Framework/",
             "Magento\\Setup\\": "setup/src/Magento/Setup/",
-            "Magento\\": "app/code/Magento/",
-            "Zend\\Mvc\\Controller\\": "setup/src/Zend/Mvc/Controller/"
+            "Magento\\": "app/code/Magento/"
         },
         "psr-0": {
             "": [
