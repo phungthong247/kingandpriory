@@ -2,7 +2,7 @@
 /*#export_form{background: none;}*/
 /*#export_tabs_export_section_content{background:whitesmoke;}
 #export_tabs_export_section_content{background:none;}*/
-#edit_form .admin__field-label{width:30% !important;}
+#edit_form .admin__field-label{width:40% !important; text-align:left;}
 #export_tabs_export_section_content{/*background-color:whitesmoke;*/}
 .attriList {float: left;width: 30%;font-size: 15px;height: 30px;background-color: transparent;padding: 5px;}
 .secpart2 h2 {color: #303030;font-size: 1.7rem;font-weight: 600;padding: 7px 0 10px;border-bottom: 1px solid #cac3b4;}

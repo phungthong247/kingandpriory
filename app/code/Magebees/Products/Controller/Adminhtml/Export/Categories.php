@@ -3,6 +3,10 @@ namespace Magebees\Products\Controller\Adminhtml\Export;
 
 class Categories extends \Magento\Backend\App\Action
 {
+	protected $resultLayoutFactory;
+	protected $registry;
+	protected $_coreRegistry;
+	
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Framework\View\Result\LayoutFactory $resultLayoutFactory,

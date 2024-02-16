@@ -9,6 +9,7 @@ class Exportrun extends \Magento\Backend\App\Action
     protected $storeManager;
     protected $configurable;
     protected $date;
+    protected $registry;
     
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
@@ -39,10 +40,15 @@ class Exportrun extends \Magento\Backend\App\Action
         $visibility_id = $this->getRequest()->getParam('visibility_dropdown');
         $fromId = $this->getRequest()->getParam('fromId');
         $toId = $this->getRequest()->getParam('toId');
+		$fromPrice = $this->getRequest()->getParam('fromPrice');
+        $toPrice = $this->getRequest()->getParam('toPrice');
+		$fromStock = $this->getRequest()->getParam('fromStock');
+        $toStock = $this->getRequest()->getParam('toStock');
+		
         $cat_ids = $this->getRequest()->getParam('categoriesSelect');
         $export_fields = $this->getRequest()->getParam('export_fields');
 
-        $export_file_name = $this->_objectManager->create('\Magebees\Products\Model\Exportproduct')->getProductExportFile($page, $store_export_id, $attr_id, $export_for, $timestamp, $type_id, $status_id, $visibility_id, $cat_ids, $fromId, $toId,$export_fields);
+        $export_file_name = $this->_objectManager->create('\Magebees\Products\Model\Exportproduct')->getProductExportFile($page, $store_export_id, $attr_id, $export_for, $timestamp, $type_id, $status_id, $visibility_id, $cat_ids, $fromId, $toId,$fromPrice,$toPrice,$fromStock,$toStock,$export_fields);
         if ($export_file_name['proceed_next']==false) {
             $exportedfile = $this->_objectManager->create('\Magebees\Products\Model\Exportfile');
             $exportedfile->setFileName($export_file_name['filename']);

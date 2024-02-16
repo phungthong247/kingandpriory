@@ -21,6 +21,17 @@ class Importproducts extends \Magento\Framework\Model\AbstractModel
     protected $Importlog;
     protected $ProductRepositoryInterface;
     protected $helper;
+    protected $localeFormat;
+    protected $SimpleProduct;
+    protected $ConfigurableProduct;
+    protected $GroupedProduct;
+    protected $VirtualProduct;
+    protected $BundleProduct;
+    protected $DownloadableProduct;
+    protected $Product;
+    protected $Website;
+	
+	
     protected $imageFields = ['image','swatch_image','small_image','thumbnail','media_gallery','gallery','gallery_label'];
 	
 	 public function __construct(
@@ -627,9 +638,22 @@ class Importproducts extends \Magento\Framework\Model\AbstractModel
 	}
 	public function ProductImageGallery($product,$isNewProduct)
     {
-    	if(isset($product['gallery']) || isset($product['image']) && isset($product['small_image']) && isset($product['thumbnail'])) 
+    	if(isset($product['gallery']) || isset($product['image']) || isset($product['small_image']) && isset($product['thumbnail'])) 
 		{
-			if( trim($product['gallery']) == "" ||  trim($product['image']) == "" && trim($product['small_image']) == "" && trim($product['thumbnail']) == "" ) 
+			if(trim($product['image']) == "/"){
+				$product['image'] = "";
+			}
+			if(trim($product['small_image']) == "/"){
+				$product['small_image'] = "";
+			}
+			if(trim($product['thumbnail']) == "/"){
+				$product['thumbnail'] = "";
+			}
+			if(trim($product['gallery']) == "/"){
+				$product['gallery'] = "";
+			}
+						
+			if( trim($product['gallery']) == "" ||  trim($product['image']) == "" || trim($product['small_image']) == "" && trim($product['thumbnail']) == "" )
 			{
 				$ProductImageGallery = array(
 					'gallery'       => (isset($product['gallery'])) ? $product['gallery'] : '',
@@ -780,72 +804,76 @@ class Importproducts extends \Magento\Framework\Model\AbstractModel
 			$etp_lookup[intval($etp['price_qty'])] = $key;
 		}
 		$incoming_tierps = explode('|',$TPData);
+		$customerGroup = $this->helper->getObjectManager()->create("Magento\Customer\Model\ResourceModel\Group\Collection");
+		$customerGroups = $customerGroup->toOptionArray();
 		$tps_toAdd = array();  
 		$tierpricecount=0;
+		
 		foreach($incoming_tierps as $tier_str){
 			if (empty($tier_str)) continue;		
 			$tmp = array();
 			$tmp = explode('=',$tier_str);
-			if ($tmp[1] == 0 && $tmp[2] == 0) continue;
+			
+			if ($tmp[2] == 0 && $tmp[3] == 0) continue;
 			if($version < '2.1.0'){
 	            $tps_toAdd[$tierpricecount] = array(
-	                'website_id' => 0,
-	                'cust_group' => $tmp[0],
-	                'price_qty' => $tmp[1],
-	                'price' => $tmp[2],
+	                'website_id' => $tmp[0],
+	                'cust_group' => $tmp[1],
+	                'price_qty' => $tmp[2],
+	                'price' => $tmp[4],
 	                'delete' => ''
 	            );
 			}else{
 				if($product_type == "bundle"){
-					if(count($tmp)==4){	
+					if(count($tmp)==5){	
 		            	$tps_toAdd[$tierpricecount] = array(
-		                'website_id' => 0,
-		                'cust_group' => $tmp[0],
-		                'price_qty' => $tmp[1],
-		                'value_type' => "percent",
-		                'percentage_value' => $tmp[3],
+		                'website_id' => $tmp[0],
+		                'cust_group' => $tmp[1],
+		                'price_qty' => $tmp[2],
+		                'value_type' => $tmp[3],
+		                'percentage_value' => $tmp[4],
 		                'delete' => ''
 		            );
 		            }
 		            else{
 		            	$tps_toAdd[$tierpricecount] = array(
-		                'website_id' => 0,
-		                'cust_group' => $tmp[0],
-		                'price_qty' => $tmp[1],
-		                'value_type' => "percent",
-		                'percentage_value' => $tmp[2],
+		                'website_id' => $tmp[0],
+		                'cust_group' => $tmp[1],
+		                'price_qty' => $tmp[2],
+		                'value_type' => $tmp[3],
+		                'percentage_value' => $tmp[4],
 		                'delete' => ''
 		            );    
 		            }
 		        }else{
-		        	if(count($tmp)==4){	
-	        			if($tmp[2]=='percent'){
+		        	if(count($tmp)==5){	
+	        			if($tmp[3]=='percent'){
 	        	 			$tps_toAdd[$tierpricecount] = array(
-			                'website_id' => 0,
-			                'cust_group' => $tmp[0],
-			                'price_qty' => $tmp[1],
-			                'value_type' => "percent",
-			                'percentage_value' => $tmp[3],
+			                'website_id' => $tmp[0],
+			                'cust_group' => $tmp[1],
+			                'price_qty' => $tmp[2],
+			                'value_type' => $tmp[3],
+			                'percentage_value' => $tmp[4],
 			                'delete' => ''
 		              	);
           			  	}else{
 			        		$tps_toAdd[$tierpricecount] = array(
-			                'website_id' => 0,
-			                'cust_group' => $tmp[0],
-			                'price_qty' => $tmp[1],
-			                'value_type' => "fixed",
-			                'price' => $tmp[3],
+			                'website_id' => $tmp[0],
+			                'cust_group' => $tmp[1],
+			                'price_qty' => $tmp[2],
+			                'value_type' => $tmp[3],
+			                'price' => $tmp[4],
 			                'delete' => ''
 	            		);
         			  	}
         			}
         			else{
 	        			$tps_toAdd[$tierpricecount] = array(
-			                'website_id' => 0,
-			                'cust_group' => $tmp[0],
-			                'price_qty' => $tmp[1],
-			                'value_type' => "fixed",
-			                'price' => $tmp[2],
+			                'website_id' => $tmp[0],
+			                'cust_group' => $tmp[1],
+			                'price_qty' => $tmp[2],
+			                'value_type' => $tmp[3],
+			                'price' => $tmp[4],
 			                'delete' => ''
 		            		);
         			}
@@ -868,17 +896,14 @@ class Importproducts extends \Magento\Framework\Model\AbstractModel
 			$storeId = 1;
 		 	$rootId = $this->storeManager->getStore($storeId)->getRootCategoryId();
         }
-
 		if($categories == ""){
 		   return array();
 		}
         $rootPath = '1/'.$rootId;
-
         if (empty($this->categoryCache[$storeId])) {
-			$collection = $this->helper->getObjectManager()->create('Magento\Catalog\Model\Category')->getCollection()
-                ->setStoreId($storeId)
-                ->addAttributeToSelect('name');
+			$collection = $this->helper->getObjectManager()->create('Magento\Catalog\Model\Category')->getCollection()->setStoreId($storeId)->addAttributeToSelect('name');
             $collection->getSelect()->where("path like '".$rootPath."/%'");
+
             foreach ($collection as $cat) {
                 $pathArr = explode('/', $cat->getPath());
                 $namePath = '';
@@ -910,9 +935,9 @@ class Importproducts extends \Magento\Framework\Model\AbstractModel
             $path = $rootPath;
             $namePath = '';
 			$i=1;
-             foreach (explode('/', $categoryPathStr) as $catName) {
-             	try {
-	                $namePath .= (empty($namePath) ? '' : '/').$catName;
+            foreach (explode('/', $categoryPathStr) as $catName) {
+				try {
+					$namePath .= (empty($namePath) ? '' : '/').$catName;
 					$urlKey = strtolower($catName);
 					$cleanurl = trim(preg_replace('/ +/', '', preg_replace('/[^A-Za-z0-9 ]/', '', urldecode(html_entity_decode(strip_tags($urlKey))))));					
 					$catUrl = $connection->fetchAll("SELECT value_id FROM ".$ccev." WHERE value='".$cleanurl."'");
@@ -921,23 +946,23 @@ class Importproducts extends \Magento\Framework\Model\AbstractModel
 						$i++;
 					}					
 					if (empty($cache[$namePath])) {
-						    $cat = $this->helper->getObjectManager()->create('Magento\Catalog\Model\Category')
-		                        ->setStoreId($storeId)
-		                        ->setPath($path)
-		                        ->setName($catName)
+						$cat = $this->helper->getObjectManager()->create('Magento\Catalog\Model\Category')
+								->setStoreId($storeId)
+								->setPath($path)
+								->setName($catName)
 								->setIsActive(1)
 								->setUrlKey($cleanurl)
-		                        ->save();
-		                    $cache[$namePath] = $cat;
-	                }
-	                $catId = $cache[$namePath]->getId();
-	                $path .= '/'.$catId;
+								->save();
+						$cache[$namePath] = $cat;
+					}
+					$catId = $cache[$namePath]->getId();
+					$path .= '/'.$catId;
 					if ($catId) {
 						$catIds[] = $catId;
 					}
-			 } catch (\Exception $e) {
-				array_push($this->error,array('txt'=>$e->getMessage(),'product_sku'=>$catName));
-			 }
+				} catch (\Exception $e) {
+					array_push($this->error,array('txt'=>$e->getMessage(),'product_sku'=>$catName));
+				}
             } //Forloop
         }
         return join(',', $catIds);

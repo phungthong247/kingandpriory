@@ -1,7 +1,7 @@
 <?php
 /** @var \WeltPixel\Backend\Helper\Developer  $developerHelper */
 $developerHelper = $this->helper('WeltPixel\Backend\Helper\Developer');
-$cronjoblimit = 10;
+$cronjoblimit = 100;
 $scheduleCollection =  $developerHelper->getLatestCronJobs($cronjoblimit);
 
 ?>
@@ -23,27 +23,33 @@ $scheduleCollection =  $developerHelper->getLatestCronJobs($cronjoblimit);
     <div class="col-xs-6 information-label">Latest Cron Jobs (<?php echo $cronjoblimit ?>)</div>
     <div class="col-xs-6"></div>
 
-    <div class="col-xs-12 cronjob-details">
+    <div class="col-xs-12 cronjob-header">
         <table>
             <thead>
                 <tr>
-                    <th>Job Code</th>
-                    <th>Status</th>
-                    <th>Created At</th>
-                    <th>Scheduled At</th>
-                    <th>Executed At</th>
+                    <th class="job-code">Job Code</th>
+                    <th class="status">Status</th>
+                    <th class="created-at">Created At</th>
+                    <th class="scheduled-at">Scheduled At</th>
+                    <th class="executed-at">Executed At</th>
                 </tr>
             </thead>
             <tbody>
-                <?php  foreach ($scheduleCollection->getItems() as $item ) : ?>
-            <tr>
-                <td><?php echo $item->getJobCode(); ?> </td>
-                <td><?php echo $item->getStatus(); ?> </td>
-                <td><?php echo $item->getCreatedAt(); ?> </td>
-                <td><?php echo $item->getScheduledAt(); ?> </td>
-                <td><?php echo ($item->getExecutedAt()) ? $item->getExecutedAt() : '-' ?> </td>
-            </tr>
-                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-xs-12 cronjob-details">
+        <table>
+            <tbody>
+            <?php  foreach ($scheduleCollection->getItems() as $item ) : ?>
+                <tr>
+                    <td class="job-code"><?php echo $item->getJobCode(); ?> </td>
+                    <td class="status"><?php echo $item->getStatus(); ?> </td>
+                    <td class="created-at"><?php echo $item->getCreatedAt(); ?> </td>
+                    <td class="scheduled-at"><?php echo $item->getScheduledAt(); ?> </td>
+                    <td class="executed-at"><?php echo ($item->getExecutedAt()) ? $item->getExecutedAt() : '-' ?> </td>
+                </tr>
+            <?php endforeach; ?>
             </tbody>
         </table>
     </div>

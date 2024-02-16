@@ -2,6 +2,9 @@
 namespace Magebees\Products\Block\Adminhtml\Downloadimg\Edit\Tab;
 class Howtouse extends \Magento\Backend\Block\Widget\Form\Generic
 {
+	protected $registry;
+	protected $formFactory;
+	
 	public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Registry $registry,

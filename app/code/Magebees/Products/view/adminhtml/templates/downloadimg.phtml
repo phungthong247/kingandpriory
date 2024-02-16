@@ -21,7 +21,7 @@
             <tr>
                 <td width="55%"></td>
                 <td width="55%">
-                    <button style="width:100%" id="uploadimgbtn" name="uploadimgbtn" class="scalable save primary" type="button" title="Run Profile in Popup" ><span><?php echo __("Download Images and Generate csv") ?></span></button>
+                    <button style="width:100%" id="uploadimgbtn" name="uploadimgbtn" class="scalable save primary" type="button" title="Run Profile in Popup" ><span><?php echo __("Download Images and Generate CSV") ?></span></button>
                 </td>
             </tr>
             </table>
@@ -34,35 +34,84 @@
         </div>
     </div>
 </div>
+<div id="downloadimg_content" style="text-align:center;"></div>
 <?php $import_url = $block->getUrl('*/*/uploadimg'); ?>
 <script type="text/javascript">
     require([
-        'jquery'
+        'jquery',
+		'Magento_Ui/js/modal/modal'
     ],
-    function(jQuery) {
-        var importurl = "<?php echo $import_url ?>";
+    function(jQuery,modal) {
+		
+		var options = {
+			type: 'popup',
+			responsive: true,
+			innerScroll: true,
+			title: 'Download Images',
+			buttons: [{
+				text: jQuery.mage.__('Close'),
+				class: '',
+				click: function () {
+					this.closeModal();
+					window.location= "<?php echo $this->getUrl('*/*/index') ?>";	
+				}
+			}],
+			
+		};	
+		
         jQuery('#uploadimg').on('click', '#uploadimgbtn', function(event){
-            var file = document.getElementById("filename");
-            var formData = new FormData();
-            formData.append("filename", file.files[0]);
-            formData.append('form_key', FORM_KEY);
-            var filename = jQuery('#filename').val();
-            if(filename) {
-                jQuery.ajax({
-                    url : importurl,
-                    showLoader:true,
-                    contentType: false,
-                    processData: false,
-                    data: formData,                         
-                    type: 'post',
-                    success: function(data){
-                        jQuery('#imgresult').html(data);
-                    }
-                });
-            }else{
-                alert('<?php echo __("Please Upload CSV File.") ?>');
+			
+			//var filename = document.getElementById("filename");
+			var filename = jQuery('#filename').val();
+			if(filename) {
+				var popup = modal(options, jQuery('#downloadimg_content')); //initialize popup
+				jQuery('#downloadimg_content').modal('openModal');
+				jQuery(".action-close").hide();
+				
+				jQuery('#downloadimg_content').html('<img src="<?php echo $this->getViewFileUrl("Magebees_Products::images/loader-1.gif"); ?>" /><br\> Import Process Starts.');
+				
+				importRecursive(1,0,1);
+				
+			}else{
+                alert("Please Upload CSV File");
             }
-        })
-    }
-    );
+		})
+    });		
+	
+	function importRecursive(next,imported,flag){
+		
+		var importurl = "<?php echo $import_url ?>";
+		var file = document.getElementById("filename");
+		var formData = new FormData();
+		formData.append("filename", file.files[0]);
+		formData.append('form_key', FORM_KEY);
+		formData.append('pointer_next', next);
+		formData.append('flag', flag);
+		var filename = jQuery('#filename').val();
+	
+		jQuery.ajax({
+			url : importurl,
+			showLoader:false,
+			contentType: false,
+			processData: false,
+			data: formData,                         
+			type: 'post',
+			success: function(response){
+
+				var pointer_next = response.pointer_last;
+				imported = imported + response.count;
+					if(response.fail){
+						window.location= "<?php echo $this->getUrl("*/*/index"); ?>";	
+					}else if(!response.no_more){
+						jQuery('#downloadimg_content').html('<img src="<?php echo $this->getViewFileUrl("Magebees_Products::images/loader-1.gif"); ?>" /><br\>'+imported+' <span style="font-size:14px;">Images are Downloaded.</span>');	
+						importRecursive(pointer_next,imported,2);
+					}else{
+						jQuery('#downloadimg_content').html('<p style="font-size:14px;">Images Downloaded Successfully.</p>');
+						setTimeout(function(){jQuery('#downloadimg_content').modal('closeModal');
+						window.location='$this->getUrl("*/*/index")'; }, 5000);
+							
+					}			
+			  }
+		});
+   	}
 </script>

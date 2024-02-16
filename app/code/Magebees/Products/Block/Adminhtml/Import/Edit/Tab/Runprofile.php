@@ -2,6 +2,10 @@
 namespace Magebees\Products\Block\Adminhtml\Import\Edit\Tab;
 class Runprofile extends \Magento\Backend\Block\Widget\Form\Generic
 {
+	protected $registry;
+	protected $formFactory;
+	protected $helper;
+	
 	public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Registry $registry,

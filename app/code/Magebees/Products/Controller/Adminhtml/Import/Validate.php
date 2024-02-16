@@ -5,6 +5,7 @@ class Validate extends \Magento\Backend\App\Action
 {
     protected $coreRegistry = null;
     protected $resultPageFactory;
+    protected $registry;
     
     public function __construct(
         \Magento\Backend\App\Action\Context $context,

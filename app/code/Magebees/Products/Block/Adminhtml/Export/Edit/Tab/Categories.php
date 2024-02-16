@@ -6,6 +6,11 @@ class Categories extends \Magento\Backend\Block\Widget\Form\Generic //implements
 	protected $_cmsPage;
 	protected $_categorytree;
     protected $categoryFlatConfig;
+    protected $registry;
+    protected $formFactory;
+    protected $systemStore;
+    protected $categorytree;
+    protected $categoryFlatState;
    
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,

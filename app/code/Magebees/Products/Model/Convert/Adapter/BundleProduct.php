@@ -12,6 +12,10 @@ class BundleProduct{
 	protected $simple_error = array();
 	protected $linkReData = array();
 	protected $eavAttribute;
+	protected $ProductFactory;
+	protected $registry;
+	protected $Product;
+	protected $helper;
 	
     public function __construct(
     	\Magento\Framework\App\ResourceConnection $resource,
@@ -62,7 +66,29 @@ class BundleProduct{
 			}
 			
 			if(empty($ProductAttributeData['url_key'])) {
-				unset($ProductAttributeData['url_key']);
+				if(isset($ProcuctData["name"])){
+					$surl_key = strtolower($ProcuctData["name"]);
+					$surl_key = str_replace('- ','', $surl_key);
+					$surl_key = str_replace(' -','', $surl_key);
+					$surl_key = str_replace('&','', $surl_key);
+					$new_urlKey = str_replace(' ','-', $surl_key);
+					$urlrewrite = $this->helper->checkUrlKeyExists($ProcuctData['store_id'], $new_urlKey);
+					if ($urlrewrite->getId()) {
+						for ($iUrlKey = 0; $iUrlKey <= 10; $iUrlKey++) {
+							$keyToken = $iUrlKey + 1;
+							$freshUrlKey = $new_urlKey . '-' . $keyToken;
+							$urlrewriteCheck = $this->helper->checkUrlKeyExists($ProcuctData['store_id'], $freshUrlKey);
+							if (!$urlrewriteCheck->getId()) {
+								break;
+							}
+						}
+						$ProductAttributeData['url_key'] = $freshUrlKey;
+						$ProductAttributeData['url_path'] = $freshUrlKey;
+					}else{
+						$ProductAttributeData['url_key'] = $new_urlKey;
+						$ProductAttributeData['url_path'] = $new_urlKey;
+					}
+				}
 			} else {
 				$surl_key=strtolower($ProductAttributeData['url_key']);
 				$new_urlKey=str_replace(' ', '-', $surl_key);

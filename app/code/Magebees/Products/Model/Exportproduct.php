@@ -11,12 +11,15 @@ class Exportproduct extends \Magento\Framework\Model\AbstractModel
 	protected $attributes = array();
 	protected $objectManager;
 	protected $product_data_collection=array();
+	protected $scopeConfig;
+	protected $helper;
+	protected $registry;
+	protected $date;
 	protected $image_related_fields =  ['store' => 0,'websites' => 1,'attribute_set' => 2,'type' => 3,'sku' => 4,'image' => 5,'small_image' => 6,'thumbnail' => 7,'swatch_image' => 8,'gallery' => 9];
 	protected $inventory_related_fields = ['store' => 0,'websites' => 1,'attribute_set' => 2,'type' => 3,'sku' => 4,'qty' => 5,'min_qty' => 6,'use_config_min_qty' => 7,'is_qty_decimal' => 8,'backorders' => 9,'use_config_backorders' => 10,'min_sale_qty' => 11,'use_config_min_sale_qty' => 12,'max_sale_qty' => 13,'use_config_max_sale_qty' => 14,'is_in_stock' => 15,'use_config_notify_stock_qty' => 16,'manage_stock' => 17,'use_config_manage_stock' => 18,'is_decimal_divided' => 19];
 	protected $price_related_fields = ['store' => 0,'websites' => 1,'attribute_set' => 2,'type' => 3,'sku' => 4,'price' => 5,'special_price' => 6,'cws_tier_price' => 7];
 	protected $releted_up_cross_sell_fields =  ['store' => 0,'websites' => 1,'attribute_set' => 2,'type' => 3,'sku' => 4,'related_product_sku' => 5,'crosssell_product_sku' => 6,'upsell_product_sku' => 7,'related_product_position' => 8,'crosssell_product_position' => 9,'upsell_product_position' => 10];
-	protected $scopeConfig;
-	protected $helper;
+	
 
 	public function __construct(
 		\Magento\Framework\Model\Context $context,
@@ -37,8 +40,41 @@ class Exportproduct extends \Magento\Framework\Model\AbstractModel
 		$this->helper = $helper;
         parent::__construct($context,$registry);
     }
-	public function getProductExportFile($page,$store_export_id,$attr_id,$export_for,$timestamp,$type_id,$status_id,$visibility_id,$cat_ids,$fromId,$toId,$export_fields){
-		$last_page = $this->unparse($page,$store_export_id,$attr_id,$export_for,$type_id,$status_id,$visibility_id,$cat_ids,$fromId,$toId,$export_fields);
+	public function getProductExportFile(
+			$page,
+			$store_export_id,
+			$attr_id,
+			$export_for,
+			$timestamp,
+			$type_id,
+			$status_id,
+			$visibility_id,
+			$cat_ids,
+			$fromId,
+			$toId,
+			$fromPrice,
+			$toPrice,
+			$fromStock,
+			$toStock,
+			$export_fields
+	){
+		$last_page = $this->unparse(
+			$page,
+			$store_export_id,
+			$attr_id,
+			$export_for,
+			$type_id,
+			$status_id,
+			$visibility_id,
+			$cat_ids,
+			$fromId,
+			$toId,
+			$fromPrice,
+			$toPrice,
+			$fromStock,
+			$toStock,
+			$export_fields
+		);
 		if($last_page==$page){
 			$this->proceed_next=false;
 		}
@@ -90,8 +126,11 @@ class Exportproduct extends \Magento\Framework\Model\AbstractModel
 			return array("filename"=>$f_name,'fullpath'=>$file_name,"proceed_next"=>$this->proceed_next,'page'=>$page,"exportedOrders"=>count($this->product_data_collection),'timestamp'=>$current_time);
 	}
 	
-	public function unparse($page=1,$store_export_id,$attr_id,$export_for,$type_id,$status_id,$visibility_id,$cat_ids,$fromId,$toId,$export_fields)
+	public function unparse($page,$store_export_id,$attr_id,$export_for,$type_id,$status_id,$visibility_id,$cat_ids,$fromId,$toId,$fromPrice,$toPrice,$fromStock,$toStock,$export_fields)
     {
+		if(!isset($page)){
+			$page = 1;
+		}
 		if($attr_id != '*'){
 			$_product_collection = $this->helper->getObjectManager()->create('\Magento\Catalog\Model\Product')->getCollection()->addAttributeToSelect("*")->addFieldToFilter('attribute_set_id',$attr_id)->setPageSize(200)->setCurPage($page);
 		}else{
@@ -113,6 +152,13 @@ class Exportproduct extends \Magento\Framework\Model\AbstractModel
 		if($fromId != '' && $toId != '' ){
 			$_product_collection->addAttributeToFilter('entity_id', array('from' => $fromId,'to' => $toId));
 		}
+		if($fromPrice != '' && $toPrice != '' ){
+			$_product_collection->addAttributeToFilter('price', array('from' => $fromPrice,'to' => $toPrice));
+		}
+		if($fromStock != '' && $toStock != '' ){
+			$_product_collection->addAttributeToFilter('price', array('from' => $fromStock,'to' => $toStock));
+		}
+		
 		if(!empty($cat_ids)){
 			$cat_ids = array_unique( $cat_ids );
 			if(count(array_filter($cat_ids))>0){
@@ -389,26 +435,40 @@ class Exportproduct extends \Magento\Framework\Model\AbstractModel
 				$tierPriceManagement = $this->helper->getObjectManager()->get('Magento\Catalog\Model\Product\TierPriceManagement');
 				$productRepository = $this->helper->getObjectManager()->get('Magento\Catalog\Api\ProductRepositoryInterface');
 
-				if($tier_sku){
-					$product = $productRepository->get($tier_sku, ['edit_mode' => true]);
-					$allTiers = $product->getData('tier_price');
-					if(!empty($allTiers)){
+				if($row['sku'] != ""){
+					$tsku = str_split($row['sku'], 2000);
+					$TierPriceStorageInterface = $this->helper->getObjectManager()->get('Magento\Catalog\Api\TierPriceStorageInterface');
+					$result = $TierPriceStorageInterface->get($tsku);
+					if (count($result)) {
 						$row['cws_tier_price']='';
-						foreach($allTiers as $cws_tier_str)
-						{
-							if($cws_tier_str['percentage_value']!='')
+						$customerGroup = "";
+						$customerGroupName = "";
+						foreach ($result as $item) {
+							$customerGroupName = strtoupper($item->getData("customer_group"));
+							if($customerGroupName == "ALL GROUPS"){
+								$customerGroup = 32000;
+							}else if($customerGroupName == "NOT LOGGED IN"){
+								$customerGroup = 0;
+							}else if($customerGroupName == "GENERAL"){
+								$customerGroup = 1;
+							}else if($customerGroupName == "WHOLESALE"){
+								$customerGroup = 2;
+							}else if($customerGroupName == "RETAILER"){
+								$customerGroup = 3;
+							}
+							if($item->getData("price_type") == "discount")
 							{
 								$price_type="percent";
-								$row['cws_tier_price'] .= $cws_tier_str['cust_group'] . "=" . round($cws_tier_str['price_qty']) . "=" . $price_type . "=" . $cws_tier_str['percentage_value'] . "|";
+								$row['cws_tier_price'] .= $item->getData("website_id")."=".$customerGroup."=".round($item->getData("quantity"))."=".$price_type."=".$item->getData("price")."|";
 							}else{
 								$price_type="fixed";
-								$row['cws_tier_price'] .= $cws_tier_str['cust_group'] . "=" . round($cws_tier_str['price_qty']) . "=" . $price_type . "=" . $cws_tier_str['price'] . "|";
+								$row['cws_tier_price'] .= $item->getData("website_id")."=".$customerGroup."=".round($item->getData("quantity"))."=".$price_type."=".$item->getData("price")."|";
 							}
-							
-						}	
+						}
 						$row['cws_tier_price']=trim($row['cws_tier_price'], "|");
 					}
 				}
+				
 				$customOptions = $this->helper->getObjectManager()->get('Magento\Catalog\Model\Product\Option')->getProductOptionCollection($product);
 				$field_value = '';
 				if($customOptions){
@@ -567,7 +627,8 @@ class Exportproduct extends \Magento\Framework\Model\AbstractModel
 				}
 			}
 			*/ 
-			array_push($this->product_data_collection,array_filter($row, 'strlen'));	
+			//array_push($this->product_data_collection,array_filter($row, 'strlen'));	
+			array_push($this->product_data_collection,$row);	
 		}
 
 		return $_product_collection->getLastPageNumber();

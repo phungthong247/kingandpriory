@@ -5,7 +5,9 @@ use Magento\Review\Block\Product\ReviewRenderer as SubjectBlock;
  * Class ReviewRendererPlugin
  * @package WeltPixel\GoogleCards\Plugin
  */
-class ReviewRendererPlugin
+#[\AllowDynamicProperties]
+
+ class ReviewRendererPlugin
 {
     const XML_PATH_GOOGLECARDS_ENABLE_GOOGLE_CARDS = 'weltpixel_google_cards/general/enable';
     /**

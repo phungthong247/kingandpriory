@@ -1,6 +1,5 @@
 <?php
 namespace Magebees\Products\Controller\Adminhtml\Downloadimg;
-
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\View\Result\PageFactory;
@@ -10,90 +9,120 @@ class Uploadimg extends \Magento\Backend\App\Action
 {
     public function execute()
     {
-        $data = $this->getRequest()->getPost();
+		$error = array();
+		$formdata = $this->getRequest()->getPost()->toarray();
+		$csvresult = array();
         $files =  $this->getRequest()->getFiles();
-        $error = [];
+		
         if (isset($files['filename']['name']) && $files['filename']['name'] != '') {
-            try {
-                $mediaDirectory = $this->_objectManager->get('Magento\Framework\Filesystem')->getDirectoryRead(DirectoryList::MEDIA);
-                $media_dir = $mediaDirectory->getAbsolutePath('import');
-                if (!is_dir($media_dir)) {
-                    mkdir($media_dir, 0777);
-                }
-                $datetime = date('m-d-Y_h-i-s', time());
-                $export_file_name = "import_images_".$datetime.".csv";
-                $listheaader = ["store","websites","type","sku","image","small_image","thumbnail","gallery"];
-            
-                $varDirectory = $this->_objectManager->get('Magento\Framework\Filesystem')->getDirectoryRead(DirectoryList::VAR_DIR);
-                $var_dir = $varDirectory->getAbsolutePath('import');
-                if (!is_dir($var_dir)) {
-                    mkdir($var_dir, 0777);
-                }
-            
-                $headerfiles = fopen($var_dir.'/'.$export_file_name, "w");
-                fputcsv($headerfiles, $listheaader);
-                fclose($headerfiles);
-            
-                $file=$files['filename']['tmp_name'];
-                $fp=fopen($file, "r");
-                $ArrSourse = fgetcsv($fp);
-
-                while ($ArrSourse = fgetcsv($fp)) {
-                    $images =  explode("|", $ArrSourse[4]);
-                    $mainimg = '';
-                    $galleryimg = '';
-                    for ($i=0; $i<count($images); $i++) {
-                        $URL = urldecode($images[$i]);
-						$urlInfo = pathinfo($URL);
-						$image_name = $urlInfo['basename'];
-						$extension = $urlInfo['extension'];						
+			
+			$mediaDirectory = $this->_objectManager->get('Magento\Framework\Filesystem')->getDirectoryRead(DirectoryList::MEDIA);
+			$media_dir = $mediaDirectory->getAbsolutePath('import');
+			if (!is_dir($media_dir)) {
+				mkdir($media_dir, 0777);
+			}
+			//$datetime = date('m-d-Y_h-i-s', time());
+			//$export_file_name = "import_images_".$datetime.".csv";
+			$export_file_name = "import_images.csv";
+			$listheaader = ["store","websites","type","sku","image","small_image","thumbnail","gallery"];
+		
+			$varDirectory = $this->_objectManager->get('Magento\Framework\Filesystem')->getDirectoryRead(DirectoryList::VAR_DIR);
+			$var_dir = $varDirectory->getAbsolutePath('import');
+			if (!is_dir($var_dir)) {
+				mkdir($var_dir, 0777);
+			}
+			
+			if($formdata["flag"] == 1){
+				$headerfiles = fopen($var_dir.'/'.$export_file_name, "w");
+				fputcsv($headerfiles, $listheaader);
+				fclose($headerfiles);
+			}
+			
+            $filename = $files['filename']['tmp_name'];
+			$handle = fopen($filename, 'r');
+			$data = fgetcsv($handle, filesize($filename));
+			if(isset($formdata['pointer_next']) && $formdata['pointer_next']!=1){
+				$flag = false;
+				fseek($handle,$formdata['pointer_next']);
+			}else{
+				$flag = true;
+			}
+			
+			$count = 1; 
+			$files = fopen($var_dir.'/'.$export_file_name, "a");			
+            while ($data = fgetcsv($handle, filesize($filename))) {
+				if($count > 5){
+					break;
+				}
+				if (!empty($data)) {
+				   try {
+						$images =  explode("|", $data[4]);
+						$mainimg = '';
+						$galleryimg = '';
+						for ($i=0; $i<count($images); $i++) {
+							$URL = urldecode($images[$i]);
+							$urlInfo = pathinfo($URL);
+							$image_name = $urlInfo['basename'];
+							$extension = $urlInfo['extension'];
+							if (strtolower($extension) == 'jpg' || strtolower($extension) == 'png' || strtolower($extension) == 'gif' || strtolower($extension) == 'jpeg') {
+								$img_list_filename = $media_dir . '/' . $image_name;
+								if (file_exists($img_list_filename)) {
+									$path_parts = pathinfo($image_name);
+									$image_name = $path_parts['filename'].'_'.time().'.'.$path_parts['extension'];
+								}
+									
+								$content = file_get_contents($images[$i]);
+								$fps = fopen($media_dir."/".$image_name, "w");
+								fwrite($fps, $content);
+								fclose($fps);
+								if ($i==0) {
+									$mainimg .= "/".$image_name;
+								} else {
+									if ($i == (count($images)-1)) {
+										$galleryimg .= "/".$image_name;
+									} else {
+										$galleryimg .= "/".$image_name."|";
+									}
+								}
+							} else {
+								$error[] = "File Type not Allowed";
+							}
+						}
+						$listimg = [$data[0],$data[1],$data[2],$data[3],$mainimg,$mainimg,$mainimg,$galleryimg];
+						fputcsv($files, $listimg);
+					   
+					   if ($count == 5) {
+							$csvresult['count'] = $count;
+							$csvresult['pointer_last'] = ftell($handle);
+							$next = fgets($handle);
+							if(!empty($next)){
+								$csvresult['no_more'] = false;
+							}else{
+								$this->messageManager->addSuccess(__('Images are Downloaded Successfully.'));
+								$csvresult['no_more'] = true;
+							}
 						
-                        /*$image_name = (stristr($URL, '?', true))?stristr($URL, '?', true):$URL;
-                        $pos = strrpos($image_name, '/');
-                        $image_name = substr($image_name, $pos+1);
-                        $image = explode(".", $image_name);
-                        $extension = end($image);
-                        */
-						if (strtolower($extension) == 'jpg' || strtolower($extension) == 'png' || strtolower($extension) == 'gif' || strtolower($extension) == 'jpeg') {
-                            $img_list_filename = $media_dir . '/' . $image_name;
-                            if (file_exists($img_list_filename)) {
-                                $path_parts = pathinfo($image_name);
-                                $image_name = $path_parts['filename'].'_'.time().'.'.$path_parts['extension'];
-                            }
-                                
-                            $content = file_get_contents($images[$i]);
-                            $fps = fopen($media_dir."/".$image_name, "w");
-                            fwrite($fps, $content);
-                            fclose($fps);
-                            if ($i==0) {
-                                $mainimg .= "/".$image_name;
-                            } else {
-                                if ($i == (count($images)-1)) {
-                                    $galleryimg .= "/".$image_name;
-                                } else {
-                                    $galleryimg .= "/".$image_name."|";
-                                }
-                            }
-                        } else {
-                            //Mage::log($ArrSourse[2]. " => ".$images[$i],null,'images.txt');
-                        }
-                    }
-                    $listimg = [$ArrSourse[0],$ArrSourse[1],$ArrSourse[2],$ArrSourse[3],$mainimg,$mainimg,$mainimg,$galleryimg];
-                    $files = fopen($var_dir.'/'.$export_file_name, "a");
-                    fputcsv($files, $listimg);
-                    fclose($files);
+							$this->getResponse()->representJson($this->_objectManager->get('Magento\Framework\Json\Helper\Data')->jsonEncode($csvresult));
+							return;
+						}
+				   } catch (\Exception $e) {
+						$error[] = $e->getMessage();
+                   }
                 }
-            } catch (\Exception $e) {
-                $error[] = "<div class='message message-error error'><div data-ui-id='messages-message-error'>".$e->getMessage()."</div></div>";
-                return;
+			 	$count++;	
             }
-            if (!empty($error)) {
-                $this->getResponse()->representJson($this->_objectManager->get('Magento\Framework\Json\Helper\Data')->jsonEncode($error));
-                return;
-            }
-            $result = "<div class='message message-success success'><div data-ui-id='messages-message-success'>Images Downloaded Successfully and <b>".$export_file_name."</b> CSV file generated successfully in <b>var/import</b> folder</div></div>";
-            $this->getResponse()->representJson($this->_objectManager->get('Magento\Framework\Json\Helper\Data')->jsonEncode($result));
+			fclose($files);
+			$csvresult['count'] = $count-1;
+			$csvresult['pointer_last'] = ftell($handle);
+			$csvresult['no_more'] = true;	
         }
+        if (!empty($error)) {
+			$productsLog = $this->_objectManager->create('Magebees\Products\Logger\Logger');
+            $productsLog->info(print_r($error, true));
+			$this->messageManager->addError(__('There are some issues while downloadable the images. Please check "var/log/magebeesproducts.log" file.'));
+        }
+		$this->getResponse()->representJson($this->_objectManager->get('Magento\Framework\Json\Helper\Data')->jsonEncode($csvresult));
+		return;
     }
     protected function _isAllowed()
     {

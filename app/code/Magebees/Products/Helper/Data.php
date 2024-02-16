@@ -8,6 +8,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $productLinkInterfaceFactory;
     protected $urlRewriteCollection;
     protected $directoryList;
+    protected $objectmanager;
  
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
@@ -74,7 +75,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		if(isset($mbimagepath) || $mbimagepath != ""){
 			return $this->directoryList->getRoot() . DIRECTORY_SEPARATOR . $mbimagepath;			
 		}else{
-			return $this->directoryList->getPath(DirectoryList::MEDIA) . DIRECTORY_SEPARATOR . 'import';
+			return $this->directoryList->getPath(DirectoryList::MEDIA) . DIRECTORY_SEPARATOR . 'import/';
 		}		
     }
 

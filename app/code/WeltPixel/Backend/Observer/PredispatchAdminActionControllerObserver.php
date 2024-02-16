@@ -1,8 +1,8 @@
 <?php
 namespace WeltPixel\Backend\Observer;
 
-use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\Event\ObserverInterface;
 
 /**
  * PredispatchAdminActionControllerObserver observer
@@ -10,7 +10,6 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
  */
 class PredispatchAdminActionControllerObserver implements ObserverInterface
 {
-
     const XML_PATH_WELTPIXEL_ENABLE_ADMIN_NOTIFICATIONS = 'weltpixel_backend_developer/notifications/enable_admin_notification';
 
     /**
@@ -68,6 +67,13 @@ class PredispatchAdminActionControllerObserver implements ObserverInterface
      */
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
+        /** @var \Magento\Framework\App\Request\Http $request */
+        $request = $observer->getData('request');
+        $routeName = $request->getRouteName();
+        if (in_array($routeName, ['tfa'])) {
+            return $this;
+        }
+
         $isNotificationEnabled = $this->_scopeConfig->getValue(self::XML_PATH_WELTPIXEL_ENABLE_ADMIN_NOTIFICATIONS);
         if ($isNotificationEnabled && $this->_backendAuthSession->isLoggedIn()) {
             $feedModel = $this->_feedFactory->create();
@@ -79,7 +85,7 @@ class PredispatchAdminActionControllerObserver implements ObserverInterface
                 $items = $this->messageManager->getMessages(false)->getItems();
                 $errorAlreadyAdded = false;
                 foreach ($items as $item) {
-                    if ($item->getText() == $licenseMessage ) {
+                    if ($item->getText() == $licenseMessage) {
                         $errorAlreadyAdded = true;
                     }
                 }

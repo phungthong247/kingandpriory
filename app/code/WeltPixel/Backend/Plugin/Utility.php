@@ -65,7 +65,7 @@ class Utility
     {
         $this->_pathInfo = $request->getPathInfo();
 
-        if (false && $this->_auth->isLoggedIn() && !$request->isAjax() && $this->_isPathRestrictionRequired() && $request->isDispatched() && !$this->_isLcVd()) {
+        if ($this->_auth->isLoggedIn() && !$request->isAjax() && $this->_isPathRestrictionRequired() && $request->isDispatched() && !$this->_isLcVd()) {
             $this->_response->setStatusHeader(403, '1.1', 'Forbidden');
             $this->_view->loadLayout(['default', 'weltpixel_license_needed'], true, true, false);
             $this->_view->renderLayout();

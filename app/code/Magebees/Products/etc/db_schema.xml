@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+  <table name="cws_product_exported_file" resource="default" engine="innodb" comment="cws_product_exported_file">
+    <column xsi:type="int" name="export_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Export Id"/>
+    <column xsi:type="varchar" name="file_name" nullable="false" length="255" comment="File_name"/>
+    <column xsi:type="datetime" name="exported_file_date_times" on_update="false" nullable="true" comment="Exported_file_date_times"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="export_id"/>
+    </constraint>
+  </table>
+  <table name="cws_product_import_log" resource="default" engine="innodb" comment="cws_product_import_log">
+    <column xsi:type="int" name="log_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Log Id"/>
+    <column xsi:type="int" name="error_type" padding="11" unsigned="false" nullable="false" identity="false" comment="Error_type"/>
+    <column xsi:type="varchar" name="product_sku" nullable="false" length="100" comment="Product_sku"/>
+    <column xsi:type="mediumtext" name="error_information" nullable="false" comment="Error_information"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="log_id"/>
+    </constraint>
+  </table>
+  <table name="cws_product_import_profiler" resource="default" engine="innodb" comment="cws_product_import_profiler">
+    <column xsi:type="int" name="profiler_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Profiler Id"/>
+    <column xsi:type="smallint" name="bypass_import" padding="6" unsigned="false" nullable="false" identity="false" comment="Bypass_import"/>
+    <column xsi:type="smallint" name="validate" padding="6" unsigned="false" nullable="false" identity="false" comment="Validate"/>
+    <column xsi:type="smallint" name="imported" padding="6" unsigned="false" nullable="false" identity="false" comment="Imported"/>
+    <column xsi:type="mediumtext" name="product_data" nullable="false" comment="Product_data"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="profiler_id"/>
+    </constraint>
+  </table>
+  <table name="cws_product_validation_log" resource="default" engine="innodb" comment="cws_product_validation_log">
+    <column xsi:type="int" name="log_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Log Id"/>
+    <column xsi:type="int" name="error_type" padding="11" unsigned="false" nullable="false" identity="false" comment="Error_type"/>
+    <column xsi:type="varchar" name="product_sku" nullable="false" length="100" comment="Product_sku"/>
+    <column xsi:type="mediumtext" name="error_information" nullable="false" comment="Error_information"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="log_id"/>
+    </constraint>
+  </table>
+</schema>

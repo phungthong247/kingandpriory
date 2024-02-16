@@ -102,7 +102,11 @@ class License extends \Magento\Framework\App\Helper\AbstractHelper
             return $msgPrefix . 'Current license is for ' . $licenseModuleName . ' and is being used on a ' . $moduleName . ' installation.';
         }
         $magentoVersion = $this->license->getMagentoVersion();
-        if (($magentoVersion != $licenseDetails[3]) && ($magentoVersion != "community")) {
+        $magentoParsedVersion = $magentoVersion;
+        if ($magentoVersion != "\x63\x6f\x6d\x6d\x75\x6e\x69\x74\x79") {
+            $magentoParsedVersion = "\x65\x6e\x74\x65\x72\x70\x72\x69\x73\x65";
+        }
+        if (($magentoParsedVersion != $licenseDetails[3]) && ($magentoVersion != "community")) {
             return $msgPrefix . 'Current license is for ' . $licenseDetails[3] . ' and it not valid when used on ' . $magentoVersion;
         }
         $domain = $this->license->getMagentoDomain();

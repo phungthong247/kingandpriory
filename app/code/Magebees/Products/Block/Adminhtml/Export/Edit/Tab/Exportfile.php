@@ -6,6 +6,8 @@ use Magento\Backend\Block\Widget\Grid\Extended;
 class Exportfile extends Extended
 {
 	protected $_exportfile;
+	protected $coreRegistry;
+	
  	public function __construct(
  			\Magento\Backend\Block\Template\Context $context,
  			\Magebees\Products\Model\Exportfile $exportfile,

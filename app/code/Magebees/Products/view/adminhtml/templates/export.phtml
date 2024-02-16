@@ -1,12 +1,11 @@
-<?php $attributeset = $block->getAttributeSet(); ?>
-<?php $store_info = $block->getStoreData(); ?>
-<?php $export_url = $block->getUrl('*/*/export'); ?>
-<?php $helper = $this->helper("Magebees\Products\Helper\Data"); ?>
-<?php $version = $helper->getMagentoVersion(); ?>
+<?php $attributeset = $block->getAttributeSet();
+$store_info = $block->getStoreData();
+$export_url = $block->getUrl('*/*/export');
+$helper = $this->helper("Magebees\Products\Helper\Data");
+$version = $helper->getMagentoVersion();
 
-<?php
 if($version >= '2.4.0'){
-	if (strpos($_SERVER['REQUEST_URI'], "export_file") !== false){?>
+	if (strpos($_SERVER['REQUEST_URI'], "export_file") !== false){ ?>
 		<script>
 			require(['jquery'],
 			 function(jQuery) {
@@ -149,10 +148,36 @@ if($version >= '2.4.0'){
 	</div>
 	<!-- End of Range Code -->
 	
+	<!-- Range Price Range Code -->
+		<div class="admin__field field field-export_for  with-note">
+		<label for="export_for" class="label admin__field-label"><span><?php echo __("Export Products By Price Range: ") ?></span></label>
+		<div class="admin__field-control control">
+			<span class="with-tip">
+					<?php echo __("From: ") ?><input onkeypress="return isNumberPrice(event)" class="input-text" id="fromPrice" name="fromPrice" value="" style="width:120px"/>
+					<?php echo __("To: ") ?> <input onkeypress="return isNumberPrice(event)" class="input-text" id="toPrice" name="toPrice" value="" style="width:120px"/>
+				</span>
+			<div id="product_sku-note" class="note admin__field-note"><?php echo __("Define Product Price. Only Works with some Product Types.") ?></div>
+		</div>
+	</div>
+	<!-- End of Price Range Code -->
+	
+		<!-- Range Stock Range Code -->
+		<div class="admin__field field field-export_for  with-note">
+		<label for="export_for" class="label admin__field-label"><span><?php echo __("Export Products By Stock Range: ") ?></span></label>
+		<div class="admin__field-control control">
+			<span class="with-tip">
+					<?php echo __("From: ") ?><input onkeypress="return isNumber(event)" class="input-text" id="fromStock" name="fromStock" value="" style="width:120px"/>
+					<?php echo __("To: ") ?> <input onkeypress="return isNumber(event)" class="input-text" id="toStock" name="toStock" value="" style="width:120px"/>
+				</span>
+			<div id="product_sku-note" class="note admin__field-note"><?php echo __("Define Stock Range. Only Works with some Product Types.") ?></div>
+		</div>
+	</div>
+	<!-- End of Price Range Code -->
+	
 </fieldset>
 
 <fieldset class="mbAdditionalFields">
- <legend class="admin__legend legend"><span><?php echo __('Additional Fields  (Select "Custom Attribute Selector" to use it from "Select Fields For")') ?></span></legend>
+ <legend class="admin__legend legend"><span><?php echo __('Additional Fields (Select "Custom Attribute Selector" to use it from "Select Fields For")') ?></span></legend>
 
  <?php $attriubte_list = $block->getAttriubteList(); ?>
 		<?php foreach($attriubte_list as $attr){ ?>
@@ -162,7 +187,7 @@ if($version >= '2.4.0'){
                 	<input type="checkbox" class="productsField_checkbox" value="<?php echo $attr; ?>" disabled  /><?php echo $attr; ?>
                 </span>
             </span>
-		<?php } ?>                  
+		<?php } ?>
 </fieldset>
 
 </div>
@@ -218,6 +243,10 @@ if($version >= '2.4.0'){
 							'visibility_dropdown' : document.getElementById("visibility_dropdown").value,
 							'fromId' : document.getElementById('fromId').value,
 							'toId' : document.getElementById('toId').value,
+							'fromPrice' : document.getElementById('fromPrice').value,
+							'toPrice' : document.getElementById('toPrice').value,
+							'fromStock' : document.getElementById('fromStock').value,
+							'toStock' : document.getElementById('toStock').value,
 							form_key: FORM_KEY,
 							'categoriesSelect' : jQuery("#categories_categories").val(),
 						} ,
@@ -291,6 +320,10 @@ if($version >= '2.4.0'){
 							'visibility_dropdown' : document.getElementById("visibility_dropdown").value,
 							'fromId' : document.getElementById('fromId').value,
 							'toId' : document.getElementById('toId').value,
+							'fromPrice' : document.getElementById('fromPrice').value,
+							'toPrice' : document.getElementById('toPrice').value,
+							'fromStock' : document.getElementById('fromStock').value,
+							'toStock' : document.getElementById('toStock').value,
 							'categoriesSelect' : jQuery("#categories_categories").val(),
 							form_key : FORM_KEY,
 							'export_fields[]':checkedList,
@@ -452,6 +485,14 @@ function isNumber(evt) {
     evt = (evt) ? evt : window.event;
     var charCode = (evt.which) ? evt.which : evt.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+    }
+    return true;
+}
+function isNumberPrice(evt) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode != 46 && charCode < 48 || charCode > 57)) {
         return false;
     }
     return true;

@@ -177,8 +177,9 @@ class Collection extends \Magento\Framework\Data\Collection implements SearchRes
     {
         $rewritesOption = $this->backendSession->getDebuggerRewite(false);
         $rewrites = $this->scanner->getRewrites($rewritesOption);
+        $filterCondition = $this->scanner->getData('filterCondition') ?? '';
 
-        $searchKey = str_replace("\\\\\\\\", "\\", $this->scanner->getData('filterCondition'));
+        $searchKey = str_replace("\\\\\\\\", "\\", $filterCondition);
 
         if ($searchKey) {
             foreach ($rewrites as $key => $value) {

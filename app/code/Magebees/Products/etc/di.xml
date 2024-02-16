@@ -3,4 +3,14 @@
 	<preference for="Magento\Catalog\Model\Product\Option\Value" type="Magebees\Products\Model\Product\Option\Value" />
     <!--<preference for="Magento\Catalog\Model\ProductLink\CollectionProvider" type="Magebees\Products\Model\Catalog\ProductLink\CollectionProvider" />-->
     <preference for="Magento\ConfigurableProduct\Helper\Product\Options\Loader" type="Magebees\Products\Helper\Product\Options\Loader" />
+	
+	<type name="Magebees\Products\Logger\Logger">
+        <arguments>
+            <argument name="name" xsi:type="string">magebeesproducts</argument>
+            <argument name="handlers"  xsi:type="array">
+                <item name="system" xsi:type="object">Magebees\Products\Logger\Handler</item>
+            </argument>
+        </arguments>
+    </type>
+	
 </config>

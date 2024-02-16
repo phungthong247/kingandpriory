@@ -1,7 +1,10 @@
 <?php
 namespace Magebees\Products\Block\Adminhtml\Downloadimg\Edit\Tab;
 class Downloadimg extends \Magento\Backend\Block\Widget\Form\Generic
-{	
+{
+	protected $registry;
+	protected $formFactory;
+	
 	public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Registry $registry,

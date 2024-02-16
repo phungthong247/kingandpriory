@@ -8,6 +8,10 @@ class Importlog extends \Magento\Backend\Block\Widget\Grid\Extended
 	protected $_flag=false;
 	protected $_count=0;
 	protected $_request;
+	protected $backendHelper;
+	protected $request;
+	protected $formFactory;
+	protected $importlogFactory;
 	
 	public function __construct(
         \Magento\Backend\Block\Template\Context $context,

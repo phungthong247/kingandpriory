@@ -224,6 +224,64 @@ iframe#launcher {
         padding-right: 2%;
         width: 47%;
     }
+    .cronjob-header {
+        padding: 10px;
+        border: 1px solid;
+        border-bottom: none;
+        margin: 0;
+        margin-top: 20px;
+        table {
+            th, td {
+                text-align: right;
+            }
+            th {
+                &.job-code {
+                    width: 43%;
+                }
+                &.status {
+                    width: 8%;
+                }
+                &.created-at {
+                    width: 16%;
+                }
+                &.scheduled-at {
+                    width: 16%;
+                }
+                &.executed-at {
+                    width: 17%;
+                }
+            }
+        }
+    }
+    .cronjob-details {
+        margin-top: 0px;
+        border: 1px solid;
+        padding: 10px;
+        height: 300px;
+        overflow-y: scroll;
+        table {
+            th, td {
+                text-align: right;
+            }
+            td {
+                &.job-code {
+                    width: 43%;
+                }
+                &.status {
+                    width: 8%;
+                }
+                &.created-at {
+                    width: 16%;
+                }
+                &.scheduled-at {
+                    width: 16%;
+                }
+                &.executed-at {
+                    width: 17%;
+                }
+            }
+        }
+    }
 }
 
 .license-pmsg {
@@ -239,13 +297,9 @@ iframe#launcher {
     }
 }
 
-.cronjob-details {
-    margin-top: 20px;
-    border: 1px solid;
-    padding: 10px;
-    table {
-        th, td {
-            text-align: right;
-        }
+
+.tfa-google-auth {
+    .message-error {
+        display: none;
     }
 }

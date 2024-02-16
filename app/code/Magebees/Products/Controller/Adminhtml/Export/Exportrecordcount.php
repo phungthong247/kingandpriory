@@ -5,6 +5,8 @@ class Exportrecordcount extends \Magento\Backend\App\Action
 {
     protected $coreRegistry = null;
     protected $resultPageFactory;
+    protected $registry;
+    protected $date;
     
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
@@ -30,6 +32,11 @@ class Exportrecordcount extends \Magento\Backend\App\Action
         $visibility_id = $this->getRequest()->getParam('visibility_dropdown');
         $fromId = $this->getRequest()->getParam('fromId');
         $toId = $this->getRequest()->getParam('toId');
+		$fromPrice = $this->getRequest()->getParam('fromPrice');
+        $toPrice = $this->getRequest()->getParam('toPrice');
+		$fromStock = $this->getRequest()->getParam('fromStock');
+        $toStock = $this->getRequest()->getParam('toStock');
+		
         $cat_ids = $this->getRequest()->getParam('categoriesSelect');
 
         if ($attr_id != '*') {
@@ -52,6 +59,13 @@ class Exportrecordcount extends \Magento\Backend\App\Action
         if ($fromId != '' && $toId != '') {
             $_product_collection->addAttributeToFilter('entity_id', ['from' => $fromId,'to' => $toId]);
         }
+		if($fromPrice != '' && $toPrice != '' ){
+			$_product_collection->addAttributeToFilter('price', array('from' => $fromPrice,'to' => $toPrice));
+		}
+		if($fromStock != '' && $toStock != '' ){
+			$_product_collection->addAttributeToFilter('price', array('from' => $fromStock,'to' => $toStock));
+		}
+		
         if (!empty($cat_ids)) {
             $cat_ids = array_unique($cat_ids);
             if (count(array_filter($cat_ids)) > 0) {

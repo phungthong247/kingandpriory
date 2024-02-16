@@ -4,6 +4,9 @@ use \Magento\Reports\Block\Adminhtml\Sales\Grid\Column\Renderer\Date;
 class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
 	protected $_exportfileFactory;
+	protected $backendHelper;
+	protected $exportfileFactory;
+	
 	public function __construct(
 			\Magento\Backend\Block\Template\Context $context,
 			\Magento\Backend\Helper\Data $backendHelper,

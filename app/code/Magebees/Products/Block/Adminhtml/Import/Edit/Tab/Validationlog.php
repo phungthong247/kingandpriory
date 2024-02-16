@@ -3,6 +3,10 @@ namespace Magebees\Products\Block\Adminhtml\Import\Edit\Tab;
 class Validationlog extends \Magento\Backend\Block\Widget\Grid\Extended
 {
 	protected $request;
+	protected $backendHelper;
+	protected $formFactory;
+	protected $validationlogFactory;
+	protected $registry;
 	protected $_validationlogFactory;
 	protected $_flag=false;
 	protected $_count=0;

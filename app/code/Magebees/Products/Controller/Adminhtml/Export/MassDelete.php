@@ -3,6 +3,8 @@ namespace Magebees\Products\Controller\Adminhtml\Export;
 
 class MassDelete extends \Magento\Backend\App\Action
 {
+	protected $file;
+	
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Framework\Filesystem\Driver\File $file

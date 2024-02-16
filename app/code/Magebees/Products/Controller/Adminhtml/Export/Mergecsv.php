@@ -5,6 +5,8 @@ class Mergecsv extends \Magento\Backend\App\Action
 {
     protected $coreRegistry = null;
     protected $resultPageFactory;
+    protected $registry;
+    protected $helper;
     protected $proceed_next=true;
     
     public function __construct(

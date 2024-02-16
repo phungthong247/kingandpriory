@@ -43,7 +43,7 @@ class Post extends \WeltPixel\Backend\Controller\Adminhtml\Licenses
                 $result['message'] .= '<div class="license-pmsg invalid-license-pmsg">' .  __('The license key you entered is invalid.')
                     . '<br/>' . $licenseErrorMessage . '</div><br/>'
                     . '<b>' . __('Common reasons:') . '</b><br>'
-                    . __('- Wrong domain name - check active license domain under My Downloadable Products section of your weltpixel.com account. License allows using the product on one Magento installation with any number of store views / URLs. Product can be installed on up to 5 sub-domains of the licensed domain for testing purpose, including domains .local | .dev | .development | .staging | .stage  Ex: staging.domain.com, development.domain.com, domain.local, domain.dev etc..') . '<br/><br/>'
+                    . __('- Wrong domain name - check active license domain under My Downloadable Products section of your weltpixel.com account. License allows using the product on one Magento installation with any number of store views / URLs. Product can be installed on up to 5 sub-domains of the licensed domain for testing purpose, including domains .local | .localhost | .dev | .development | .staging | .stage  Ex: staging.domain.com, development.domain.com, domain.local, domain.dev etc..') . '<br/><br/>'
                     . __('- Wrong Magento edition - using a Magento Open Source license key for a Magento Commerce installation.') . '<br/><br/>'
                     . __('- Wrong module - using a license key from a different product or product pack.');
             }
