@@ -6,29 +6,10 @@ define([
 ], function ($, Component, registry, _) {
     'use strict';
 
-    $.Suggestion = function (data) {
-        this.url = data.url;
-        this.title = data.title;
-        this.num_results = data.num_results;
-    };
-
-    $.Product = function (data) {
-        this.name = data.name;
-        this.sku = data.sku;
-        this.image = data.image;
-        this.reviews_rating = data.reviews_rating;
-        this.short_description = data.short_description;
-        this.description = data.description;
-        this.price = data.price;
-        this.url = data.url;
-        this.add_to_cart = data.add_to_cart;
-    };
-
     return Component.extend({
         defaults: {
-            localStorage: $.initNamespaceStorage('searchsuiteautocomplete').localStorage,
-            searchText: '',
-            searchByCat: '',
+            localStorage: '',
+            searchText: ''
         },
 
         load: function () {
@@ -38,16 +19,11 @@ define([
                 this.xhr.abort();
             }
 
-            var _query = {q: this.searchText};
-            if(this.searchByCat != ''){
-                _query = {cat: this.searchByCat, q: this.searchText};
-            }
-
             this.xhr = $.ajax({
                 method: "get",
                 dataType: "json",
                 url: this.url,
-                data: _query,
+                data: {q: this.searchText},
                 beforeSend: function () {
                     self.spinnerShow();
                     if (self.loadFromLocalSorage(self.searchText)) {
@@ -106,8 +82,10 @@ define([
             var suggested = [];
 
             if (!_.isUndefined(suggestedData.data)) {
-                suggested = $.map(suggestedData.data, function (suggestion) {
-                    return new $.Suggestion(suggestion) });
+                $.each(suggestedData.data, function(key_su,value_su) {
+                    var su = {url: value_su.url, title: value_su.title, num_results: value_su.num_results};
+                    suggested.push(su);
+                });
             }
 
             registry.get('searchsuiteautocomplete_form', function (autocomplete) {
@@ -119,9 +97,10 @@ define([
             var products = [];
 
             if (!_.isUndefined(productsData.data)) {
-                products = $.map(productsData.data, function (product) {
-                    return new $.Product(product)
-                });
+                $.each(productsData.data, function(key_p,value_p) {
+                    var pr = {name: value_p.name, sku: value_p.sku, image: value_p.image, reviews_rating: value_p.reviews_rating, short_description: value_p.short_description, description: value_p.description, price: value_p.price, url: value_p.url, add_to_cart: value_p.add_to_cart};
+                    products.push(pr);
+                }); 
             }
 
             registry.get('searchsuiteautocomplete_form', function (autocomplete) {

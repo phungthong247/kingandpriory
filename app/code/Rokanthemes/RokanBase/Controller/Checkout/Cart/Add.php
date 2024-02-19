@@ -9,6 +9,7 @@ namespace Rokanthemes\RokanBase\Controller\Checkout\Cart;
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Checkout\Model\Cart as CustomerCart;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Filter\LocalizedToNormalized;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -33,8 +34,10 @@ class Add extends \Magento\Checkout\Controller\Cart\Add
         $params = $this->getRequest()->getParams();
         try {
             if (isset($params['qty'])) {
-                $filter = new \Magento\Framework\Filter\LocalizedToNormalized(
-                    ['locale' => $this->_objectManager->get('Magento\Framework\Locale\ResolverInterface')->getLocale()]
+                $filter = new LocalizedToNormalized(
+                    ['locale' => $this->_objectManager->get(
+                        \Magento\Framework\Locale\ResolverInterface::class
+                    )->getLocale()]
                 );
                 $params['qty'] = $filter->filter($params['qty']);
             }

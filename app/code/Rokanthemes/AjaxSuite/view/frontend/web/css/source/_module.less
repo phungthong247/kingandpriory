@@ -1,0 +1,269 @@
+/* gobal popup-ajaxsuite style */
+.flex(){
+    display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+    display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+    display: -ms-flexbox;      /* TWEENER - IE 10 */
+    display: -webkit-flex;     /* NEW - Chrome */
+    display: flex;       
+}
+& when (@media-common = true) {
+	.modals-wrapper{
+		.modal-popup._inner-scroll{
+			.flex();
+			justify-content: center;
+			align-items: center;
+			transition: all .2s ease-in-out;
+		    -webkit-transform: scale(.8);
+		    -moz-transform: scale(.8);
+		    -ms-transform: scale(.8);
+		    -o-transform: scale(.8);
+		    transform: scale(.8);
+		    &._show{
+		    	-webkit-transform: scale(1);
+			    -moz-transform: scale(1);
+			    -ms-transform: scale(1);
+			    -o-transform: scale(1);
+			    transform: scale(1);
+		    }
+			.modal-inner-wrap{
+				width: fit-content;
+				position: relative;
+				box-shadow: none;
+				transform: none;
+				::-webkit-scrollbar { 
+		             width: 5px;
+		        }
+			    /* Track */
+			    ::-webkit-scrollbar-track {
+			      background: @color-white; 
+			    }
+			     
+			    /* Handle */
+			    ::-webkit-scrollbar-thumb {
+			      background: @color-gray80; 
+			      border-radius: 10px;
+			    }
+
+			    /* Handle on hover */
+			    ::-webkit-scrollbar-thumb:hover {
+			      background: @color-gray80; 
+			    }
+			    .modal-header{
+			    	padding: 0;
+			    	.action-close{
+			    		box-shadow: none;
+			    		z-index: 222;
+			    	}
+			    }
+			    .modal-content{
+			    	padding: 0 30px;
+			    	#mb-ajaxsuite-popup-wrapper{
+			    		text-align: center;
+			    		.photo.image {
+			    			max-width: 355px;
+			    			width: 100%;
+			    			img{
+			    				height: 100%;
+			    			}
+			    		}
+			    		.product-name{
+			    			margin-top: 10px;
+			    			margin-bottom: 20px;
+			    			font-size: 18px;
+			    			.greycolor{
+			    				color: @color-gray60;
+			    				font-size: 14px;
+			    			}
+			    		}
+			    		.ajaxsuite-buttons{
+			    			button{
+			    				display: block;
+			    				width: 100%;
+			    				border: 0;
+			    			}
+			    		}
+			    		.wrapper-success{
+			    			.product-information{
+			    				margin-bottom: 30px;
+			    				.flex();
+			    				.photo.image{
+			    					max-width: 230px;
+			    				}
+			    				.product-name{
+			    					margin: 0;
+			    					text-align: left;
+			    					.pupup-suc-added-to-your-bag{
+			    						text-transform: uppercase;
+			    						font-weight: @font-weight__semibold;
+			    						margin-bottom: 10px;
+			    						font-size: 18px;
+			    						color: #222;
+			    					}
+			    					.pupup-suc-added-ajax-cart-product-name,
+			    					.pupup-suc-added-ajax-cart-qty-price{
+										font-size: @font-size__base;
+										color: @product-name-link__color;
+			    					}
+			    					.pupup-suc-added-ajax-cart-qty-price{
+			    						.flex();
+			    						flex-wrap: wrap;
+			    						margin-top: 10px;
+			    						color: @product-name-link__color;
+			    						.pupup-suc-added-ajax-cart-qty{
+			    							margin-right: 10px;
+			    						}
+			    					}
+			    				}
+			    				.price{
+									/* font-family: @heading__font-family__base;
+									color: @heading__color__base; */
+									font-weight: @font-weight__semibold;
+
+			    				}
+			    			}
+			    		}
+			    	}
+			    }
+			}
+		}
+	}
+}
+/* Ipad and lager srceen */
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) { 
+   	.modals-wrapper{
+		.modal-popup._inner-scroll{
+			.modal-inner-wrap{
+				min-width: 400px; 
+				.modal-content{
+					.block-authentication{
+						border: 0;
+						.block-title{
+							text-align: center;
+							/* font-family: @heading__font-family__base;
+							color: @heading__color__base; */
+							font-weight: @font-weight__semibold;
+						}
+						.block-customer-login{
+							.logo{
+								margin: 0 auto 25px auto;
+							}
+						}
+					}
+					.block[class]{
+						padding: 0;
+					}
+					.form-login{
+						.fieldset{
+							margin-bottom: 0;
+							text-align: left;
+						}
+						.password {
+							.action{
+								display: block;
+								text-align: right;
+								margin-top: 5px;
+								color: @color-gray60;
+							}
+						}
+			    		.actions-toolbar{
+			    			> .primary{
+			    				float: none;
+    							display: block;
+    							margin-bottom: 20px;
+			    			}
+			    			.action-register,
+			    			.action-login{
+								display: block;
+								width: 100%;
+								text-align: center;
+								float: none;
+							}
+							.action-register{
+								padding: 0; 
+								font-size: @font-size__base;
+								text-transform: capitalize;
+								margin-top: 15px;
+								padding: 17.5px 30px;
+							}
+			    		}
+			    	}
+			    	#mb-ajaxsuite-popup-wrapper{
+			    		.wrapper-success{
+			    			.photo.image{
+			    				max-width: 100%;
+			    			}
+			    			min-width: 400px;
+			    			.product-information{
+			    				.flex();
+			    				.photo.image{
+			    					max-width: 200px;
+			    					margin-right: 30px;
+			    					height: 100%;
+			    				}
+			    				.product-name{
+			    					margin: 0;
+			    					text-align: left;
+			    				}
+			    			}
+			    			.ajaxsuite-buttons{
+				    			display: grid;
+							    grid-template-columns: 1fr 1fr;
+							    grid-gap: 30px;
+			    			}
+			    		}
+			    		
+			    	}
+				}
+			}
+		}
+	}
+}
+/* Mobile screen */
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+	.modals-wrapper{
+		.modal-popup._inner-scroll{
+			left: 0;
+			.modal-inner-wrap{
+				background: @color-white;
+				max-width: 90%; 
+				min-height: 10px;
+				.modal-content{
+					#mb-ajaxsuite-popup-wrapper{
+	    				.photo.image{
+	    					display: none;
+	    				}
+	    				> .product-name,
+	    				.product-information > .product-name{
+	    					text-align: center !important;
+					        &:before{
+					        	content: "\f00c";
+					        	font-family: 'FontAwesome';
+					        	font-weight: 900;
+					        	font-size: 2rem;
+								color: #155724;
+								width: 5rem;
+							    height: 5rem;
+							    background-color: #d4edda;
+							    display: inline-flex;
+							    align-items: center;
+							    justify-content: center;
+							    border-radius: 50%;
+							    margin: auto;
+							    text-align: center;
+							    margin-bottom: 1.5rem;
+					        }
+	    				}
+	    				.pupup-suc-added-ajax-cart-qty-price{
+	    					justify-content: center;
+	    				}
+			    		.ajaxsuite-buttons{
+			    			#button_continue_shopping{
+			    				display: none;
+			    			}
+			    		}
+			    	}
+				}
+			}
+		}
+	}
+}

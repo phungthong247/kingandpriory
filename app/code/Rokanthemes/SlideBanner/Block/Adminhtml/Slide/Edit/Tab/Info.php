@@ -88,16 +88,6 @@ class Info extends Generic implements TabInterface
                 'required'     => false
             ]
         );
-
-        $fieldset->addField(
-            'mobile_image',
-            'image',
-            [
-                'name'        => 'mobile_image',
-                'label'    => __('Mobile Image'),
-                'required'     => false
-            ]
-        );
         $fieldset->addField(
             'slide_link',
             'text',

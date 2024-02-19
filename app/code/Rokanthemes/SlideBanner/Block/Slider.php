@@ -64,16 +64,10 @@ class Slider extends \Magento\Framework\View\Element\Template
      *
      * @return array
      */
-	public function getImageElement($src,$alt_src='')
+	public function getImageElement($src)
 	{
 		$mediaUrl = $this->_storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
-		$imageUrl = '<img alt="' . $this->getSlider()->getSliderTitle() . '" src="'. $mediaUrl . $src . '" />';
-
-		if(!empty($alt_src)){
-			$imageUrl = '<img alt="' . $this->getSlider()->getSliderTitle() . '" src="'. $mediaUrl . $src . '" data-mobile="'.$mediaUrl . $alt_src .'" />';
-		}
-
-		return $imageUrl;
+		return '<img alt="' . $this->getSlider()->getSliderTitle() . '" src="'. $mediaUrl . $src . '" />';
 	}
 	public function getBannerCollection()
 	{

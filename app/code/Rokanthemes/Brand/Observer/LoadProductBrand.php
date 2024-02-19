@@ -31,6 +31,8 @@ class LoadProductBrand implements ObserverInterface
      */
     protected $catalogData;
 
+    protected $_resource;
+
     /**
      * @param \Magento\Catalog\Helper\Data $catalogData
      */
@@ -54,7 +56,7 @@ class LoadProductBrand implements ObserverInterface
         $table_name = $this->_resource->getTableName('rokanthemes_brand_product');
         if($product->getId()) {
             $productIds = $connection->fetchCol(" SELECT brand_id FROM ".$table_name." WHERE product_id = ".$product->getId());
-            $product->setData('product_brand', implode($productIds, ','));
+            $product->setData('product_brand', implode(',', $productIds));
         }
         
     }

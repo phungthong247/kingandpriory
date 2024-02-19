@@ -9,6 +9,6 @@ $viewModel = $block->getData('viewModel');
 ?>
 <div class="breadcrumbs">
 	<div class="container">
-		<div class="breadcrumbs" data-mage-init='<?= /* @escapeNotVerified */ $viewModel->getJsonConfiguration() ?>'></div>
+		<div class="breadcrumbs" data-mage-init='<?= /* @escapeNotVerified */ $viewModel->getJsonConfigurationHtmlEscaped() ?>'></div>
 	</div>
 </div>

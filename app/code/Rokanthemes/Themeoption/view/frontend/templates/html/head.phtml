@@ -31,9 +31,74 @@
 	margin-right: 0;
 	padding-left: 10px;
 }
+.form.form-login .field.choice,
+.fieldset.create.info .field.choice,
+.field.choice.newsletter,
+.fieldset.create.account .field.choice {
+	display: flex;
+    align-items: center;
+}
+.form.form-login .field.choice input[type=checkbox],
+.fieldset.create.info .field.choice input[type=checkbox],
+.fieldset.create.account .field.choice input[type=checkbox] { 
+	margin-top: 0;
+    margin-right: 5px;
+}
+.login-container .fieldset .label {
+    display: block;
+}
+.checkout-index-index .modal-popup .modal-inner-wrap {
+    left: unset !important;
+}
+.account .block-reorder {
+	display: none;
+}
+.account .sidebar-main-1 {
+    margin-top: 50px;
+}
+.modal-popup .modal-footer button.action:hover {
+	border:none;
+}
+.checkout-index-index .modal-popup .modal-footer .action-save-address {
+	margin-right: 20px;
+}
+.modal-popup .modal-footer button.secondary.action-hide-popup {
+	border-radius: 30px;
+}
+.rokanthemes-onepagecheckout .fieldset > .field:not(.choice) > .label {
+    width: 30%;
+}
+.rokanthemes-onepagecheckout .fieldset > .field:not(.choice) > .control {
+    width: 70%;
+}
+.rokanthemes-onepagecheckout .form-shipping-address .field.choice {
+	display: flex;
+    align-items: center;
+}
+
+body.page-layout-1column .column.main {
+    padding-bottom: 0;
+}
+
+.checkout-onepage-success .page-main.container {
+	margin-bottom: 50px;
+}
+
+.rokantheme-instagram .item-row .intagram-item:not(:last-of-type) {
+    margin-bottom: 0;
+}
+
 @media (min-width: 768px){
 	.block.newsletter{
 		max-width: 100%;
+	}
+	.rokanthemes-onepagecheckout-full.checkout-index-index .nav-toggle {
+		display: none;
+	}
+} 
+@media (max-width: 767px){
+	.custommenu.navigation li.parent > a.ui-state-active:after, .custommenu.navigation li.level0.parent > a.ui-state-active:after {
+		content: "\e996";
 	}
 }
 </style>

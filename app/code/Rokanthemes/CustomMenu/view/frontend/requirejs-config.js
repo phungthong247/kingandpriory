@@ -9,10 +9,5 @@ var config = {
 	},
 	'paths': {
 		'rokanthemes/custommenu': 'Rokanthemes_CustomMenu/js/custommenu'
-	},
-	"map":{
-		"*":{
-			'Magento_Catalog/js/product/breadcrumbs': 'Rokanthemes_CustomMenu/js/product/breadcrumbs'
-		}
-	}
+    }
 };

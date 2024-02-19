@@ -43,9 +43,12 @@ if($banners = $block->getBannerCollection()):
 			{<?php foreach($slider->getSliderSetting() as $key=>$value)
 				{
 					if(in_array($key, array('autoPlay', 'navigation', 'stopOnHover', 'pagination', 'scrollPerPage'))){
-						$value == 0 ? $value = 'true': '';
-						$value == 1 ? $value = 'false': '';
+						$value == 0 ? $value = 'true': 'false';
+						$value == 1 ? $value = 'false': 'true';
 					}
+					if($value == '' || $value==null || !$value){
+						$value = 'true';	
+					} 
 					echo $key . ':' . $value . ',';
 				} ?>}
 		);

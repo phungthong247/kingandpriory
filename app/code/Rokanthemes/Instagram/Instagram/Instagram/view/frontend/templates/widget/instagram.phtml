@@ -1,0 +1,69 @@
+<?php 
+$helper = $this->helper('Rokanthemes\Instagram\Helper\Data');
+$owl_item_default = $block->getData('owl_item_default');
+$owl_item_desktop = $block->getData('owl_item_desktop');
+$owl_item_small_desktop = $block->getData('owl_item_small_desktop');
+$owl_item_big_tablet = $block->getData('owl_item_big_tablet');
+$owl_item_tablet = $block->getData('owl_item_tablet');
+$owl_item_small_tablet = $block->getData('owl_item_small_tablet');
+$owl_item_mobile = $block->getData('owl_item_mobile');
+$rows = $block->getData('rows');
+$owl_margin = $this->getData('owl_margin');
+$next_back = (1 == $this->getData('next_back')) ? 'true' : 'false';
+$owl_dots = (1 == $this->getData('owl_dots')) ? 'true' : 'false';
+if($helper->getConfig('instagramsection/instagramgroup/active')){
+	$collections = $block->getInstagramPostByStoreView();
+?>
+	<div class="section container-rokan-instagram rokantheme-instagram">
+	<?php if($block->getData('title')): ?>
+		<div class="rokan-title header-rokan-instagram">
+			<?php if($block->getData('title')): ?>
+				<h3 class="module-title instagram-title"><?= $block->escapeHtml($block->getData('title')) ?></h3>
+			<?php endif; ?>
+			<?php if($block->getData('description')): ?>
+				<p class="rokan-description instagram-short-des"><?= $block->escapeHtml($block->getData('description')) ?></p>
+			<?php endif; ?>
+		</div>
+		<?php if($collections->count() > 0){ ?>
+		<div class="content-images-rokan-instagram">
+			<div class="post-grid-widget-rokan-instagram owl-carousel owl-theme"
+			data-rtl="false" data-items="<?= $owl_item_default ?>" data-bigdesktop="<?= $owl_item_desktop ?>" data-smalldesktop="<?= $owl_item_small_desktop ?>" data-bigtablet="<?= $owl_item_big_tablet ?>" 
+			data-tablet="<?= $owl_item_tablet ?>" data-smalltablet="<?= $owl_item_small_tablet ?>" data-mobile="<?= $owl_item_mobile ?>"  
+			data-margin="<?= $owl_margin ?>" data-loop="false" data-center="false" 
+			data-mousedrag="true" data-touchdrag="true" data-stagepadding="1" 
+			data-nav="<?= $next_back ?>" data-navnext="" data-navprev="" data-rewind="true" 
+			data-dots="<?= $owl_dots ?>"> 
+				<?php 
+					$i=0;
+					foreach ($collections as $val_co) { 
+					if($i %$rows == 0){
+						echo '<div class="item-row">';
+					}
+					$i ++;
+					?>
+					<div class="intagram-item">
+						<a href="<?= $val_co->getPermalink() ;?>" target="_blank" class="<?= $block->getData('image_format') ?> <?php if($block->getData('show_captions') == 'yes'){ ?>has-caption<?php } ?> <?php if($block->getData('show_instagram_icon') == 'yes'){ ?>has-intagram-icon<?php } ?>">
+							<figure>
+								<div>
+									<img alt="<?= $val_co->getIdInstagram() ;?>" src="<?= $val_co->getMediaUrl() ;?>">
+								</div>
+								<?php if($block->getData('show_captions') == 'yes' && $val_co->getCaption()){ ?>
+								<figcaption><?= $val_co->getCaption() ?></figcaption>
+								<?php } ?>
+							</figure>
+						</a>
+					</div>
+					<?php if($i %$rows == 0) echo "</div>"; ?>
+				<?php } ?>
+				<?php if($i %$rows != 0) echo "</div>"; ?>
+			</ul>
+		</div>
+		<?php }else{ ?>
+		<div class="instagram-connect-error">
+			<p><strong><?php echo __('Error: No connected account.');?></strong></p>
+			<p><?php echo __('Please go to the admin > Rokanthemes > Configuration > Instagram: Settings page to connect an account.');?></p>
+		</div>
+		<?php } ?>
+	<?php endif; ?>
+	</div> 
+<?php } ?>

@@ -1,5 +1,5 @@
-<div class="field" data-bind="visible: visible, attr: {'name': element.dataScope}, css: additionalClasses, afterRender:oscAddress.fieldAfterRender(element.dataScope)">
-        <div class="control" data-bind="css: {'_with-tooltip': element.tooltip}">
+<div class="field" data-bind="visible: visible, attr: {'name': element.dataScope}, css: additionalClasses">
+    <div class="control" data-bind="css: {'_with-tooltip': element.tooltip}">
         <!-- ko if: (element.dataScope.indexOf('street.0')>0) -->
 		<label class="label" data-bind="attr: { for: element.uid }">
 			<span data-bind="i18n: 'Street Address'"></span>
@@ -46,4 +46,3 @@
         <!-- /ko -->
     </div>
 </div>
-<!-- /ko -->

@@ -111,48 +111,6 @@ class Save extends \Magento\Backend\App\Action
 					}
 				}
 			}
-
-
-			/**
-			 * Save mobile image upload
-			 */
-			try {
-				$uploader = $this->_objectManager->create(
-					'Magento\MediaStorage\Model\File\Uploader',
-					['fileId' => 'mobile_image']
-				);
-				$uploader->setAllowedExtensions(['jpg', 'jpeg', 'gif', 'png']);
-
-				/** @var \Magento\Framework\Image\Adapter\AdapterInterface $imageAdapter */
-				$imageAdapter = $this->_objectManager->get('Magento\Framework\Image\AdapterFactory')->create();
-
-				$uploader->addValidateCallback('banner_image', $imageAdapter, 'validateUploadFile');
-				$uploader->setAllowRenameFiles(true);
-				$uploader->setFilesDispersion(true);
-
-				/** @var \Magento\Framework\Filesystem\Directory\Read $mediaDirectory */
-				$mediaDirectory = $this->_objectManager->get('Magento\Framework\Filesystem')
-				                       ->getDirectoryRead(DirectoryList::MEDIA);
-				$result = $uploader->save($mediaDirectory->getAbsolutePath(\Rokanthemes\SlideBanner\Model\Slide::BASE_MEDIA_PATH));
-				$data['mobile_image'] = \Rokanthemes\SlideBanner\Model\Slide::BASE_MEDIA_PATH . $result['file'];
-			} catch (\Exception $e) {
-				if ($e->getCode() == 0) {
-					$this->messageManager->addError($e->getMessage());
-				}
-				if (isset($data['mobile_image']) && isset($data['mobile_image']['value'])) {
-					if (isset($data['mobile_image']['delete'])) {
-						$data['mobile_image'] = null;
-						$data['delete_mobile'] = true;
-					} else if (isset($data['mobile_image']['value'])) {
-						$data['mobile_image'] = $data['mobile_image']['value'];
-					} else {
-						$data['mobile_image'] = null;
-					}
-				}
-			}
-
-
-
 			$model->addData($data);
 
 			try {

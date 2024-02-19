@@ -15,7 +15,7 @@
 <?php $_helper = $this->helper('Magento\Catalog\Helper\Output'); ?>
 <?php $_product = $block->getProduct(); 
 $config_point1 = $this->helper('Rokanthemes\RokanBase\Helper\Data')->getConfigData('setting_categories/categories/point1');
-$arr_config_point1 = explode(',', $config_point1);
+$arr_config_point1 = explode(',', $config_point1 ?? '');
 $show = false;
 $categories = $_product->getCategoryIds();
 if(count($categories) > 0 && count($arr_config_point1) > 0){

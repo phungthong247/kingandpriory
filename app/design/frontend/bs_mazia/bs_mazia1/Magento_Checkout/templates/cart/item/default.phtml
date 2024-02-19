@@ -16,7 +16,7 @@ $helper = $this->helper('Magento\Msrp\Helper\Data');
 $canApplyMsrp = $helper->isShowBeforeOrderConfirm($product) && $helper->isMinimalPriceLessMsrp($product);
 
 $config_point2 = $this->helper('Rokanthemes\RokanBase\Helper\Data')->getConfigData('setting_categories/categories/point2');
-$arr_config_point2 = explode(',', $config_point2);
+$arr_config_point2 = $config_point2 ? explode(',', $config_point2) : [];
 $qty = 1;
 $categories = $product->getCategoryIds();
 if(count($categories) > 0 && count($arr_config_point2) > 0){

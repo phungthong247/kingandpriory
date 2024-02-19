@@ -210,8 +210,8 @@ switch ($type = $block->getType()) {
 									</span>
 								<?php endif; ?>
 								<?php $todayDate = time(); 
-									$timeStartNew = strtotime($_item->getData('news_from_date'));
-									$timeEndNew = strtotime($_item->getData('news_to_date')); ?>
+									$timeStartNew = $_item->getData('news_from_date') ? strtotime($_item->getData('news_from_date')) : null;
+									$timeEndNew = $_item->getData('news_from_date') ? strtotime($_item->getData('news_to_date')) : null; ?>
 								<?php if ( $timeEndNew >= $todayDate && $timeStartNew <= $todayDate): ?>
 									<span class="newlabel">
 										<span><?php echo __('New') ?></span>

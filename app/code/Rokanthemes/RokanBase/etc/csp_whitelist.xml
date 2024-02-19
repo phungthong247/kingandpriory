@@ -13,8 +13,10 @@
                 <value id="fontawesome" type="host">*.fontawesome.com</value>
 				<value id="google.com" type="host">*.google.com</value>
 				<value id="youtube.com" type="host">*.youtube.com</value>
-				<value id="instagram.com" type="host">*.instagram.com</value>
-				<value id="cdninstagram.com" type="host">*.cdninstagram.com</value>
+                <value id="maps.googleapis.com" type="host">maps.googleapis.com</value>
+				<value id="connect.facebook.net" type="host">*.facebook.net</value>
+				<value id="cdn.lightwidget.com" type="host">cdn.lightwidget.com</value>
+
             </values>
         </policy>
         <policy id="style-src">
@@ -30,8 +32,7 @@
                 <value id="fontawesome" type="host">*.fontawesome.com</value>
 				<value id="google.com" type="host">*.google.com</value>
 				<value id="youtube.com" type="host">*.youtube.com</value>
-				<value id="cdninstagram.com" type="host">*.cdninstagram.com</value>
-
+                <value id="maps.googleapis.com" type="host">maps.googleapis.com</value>
             </values>
         </policy>
         <policy id="img-src">
@@ -48,9 +49,9 @@
                 <value id="data" type="host">'self' data:</value>
                 <value id="lightemporium" type="host">*.lightemporium.com</value>                
                 <value id="usercentrics" type="host">*.usercentrics.eu</value>
-				<value id="cdninstagram.com" type="host">*.cdninstagram.com</value>
 				<value id="google.com" type="host">*.google.com</value>
 				<value id="youtube.com" type="host">*.youtube.com</value>
+                <value id="maps.googleapis.com" type="host">maps.googleapis.com</value>
             </values>
         </policy>
         <policy id="connect-src">
@@ -61,7 +62,8 @@
                 <value id="twimg" type="host">*.twimg.com</value>
 				<value id="google.com" type="host">*.google.com</value>
 				<value id="youtube.com" type="host">*.youtube.com</value>
-				<value id="cdninstagram.com" type="host">*.cdninstagram.com</value>
+                <value id="maps.googleapis.com" type="host">maps.googleapis.com</value>
+				<value id="facebook.net" type="host">facebook.net</value>
             </values>
         </policy>
         <policy id="font-src">
@@ -73,14 +75,9 @@
                 <value id="twimg" type="host">*.twimg.com</value>
                 <value id="trustedshops" type="host">*.trustedshops.com</value>
                 <value id="googleapis" type="host">*.googleapis.com</value>
-				<value id="sandbox" type="host">*.sandbox.paypal.com</value>
-				<value id="youtube" type="host">*.youtube.com</value>
-				<value id="paypal" type="host">*.paypal.com</value>
-				<value id="googleadservices" type="host">*.googleadservices.com</value>
-				<value id="google-analytics" type="host">*.google-analytics.com</value>
 				<value id="google.com" type="host">*.google.com</value>
 				<value id="youtube.com" type="host">*.youtube.com</value>
-				<value id="cdninstagram.com" type="host">*.cdninstagram.com</value>
+                <value id="maps.googleapis.com" type="host">maps.googleapis.com</value>
             </values>
         </policy>
 
@@ -89,14 +86,18 @@
                 <value id="twitter.com" type="host">*.twitter.com</value>
 				<value id="google.com" type="host">*.google.com</value>
 				<value id="youtube.com" type="host">*.youtube.com</value>
-				<value id="cdninstagram.com" type="host">*.cdninstagram.com</value>
+				<value id="facebook.com" type="host">*.facebook.com</value>
+                <value id="maps.googleapis.com" type="host">maps.googleapis.com</value>
+				<value id="lightwidget.com" type="host">lightwidget.com</value>
             </values>
         </policy>
 
         <policy id="form-action">
             <values>
                 <value id="twitter.com" type="host">*.twitter.com</value>
-				<value id="cdninstagram.com" type="host">*.cdninstagram.com</value>
+				<value id="google.com" type="host">*.google.com</value>
+				<value id="youtube.com" type="host">*.youtube.com</value>
+                <value id="maps.googleapis.com" type="host">maps.googleapis.com</value>
             </values>
         </policy>
     </policies>

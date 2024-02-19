@@ -103,8 +103,8 @@
 										</span>
 									<?php endif; ?>
 									<?php $todayDate = time(); 
-										$timeStartNew = strtotime($_item->getData('news_from_date'));
-										$timeEndNew = strtotime($_item->getData('news_to_date')); ?>
+										$timeStartNew = strtotime($_item->getData('news_from_date') ?? '');
+										$timeEndNew = strtotime($_item->getData('news_to_date') ?? ''); ?>
 									<?php if ( $timeEndNew >= $todayDate && $timeStartNew <= $todayDate): ?>
 										<span class="newlabel">
 											<span><?php echo __('New') ?></span>

@@ -1,0 +1,33 @@
+<?php
+/**
+ * @var $block Rokanthemes\AjaxSuite\Block\Js
+ */
+?>
+<script>
+    window.logoUrl = '<?= /* @noEscape */ $block->getLogoSrc() ?>';
+</script>
+<?php
+if ($block->getSettingStatus()): ?>
+<script type="text/x-magento-init">
+{
+    "*": {
+        "rokanthemes/ajaxsuite"    : {
+                "loginUrl": "<?php echo $block->getUrl('customer/account/login') ?>",
+                "customerId": "<?php echo $block->getCustomerId() ?>",
+                "ajaxCart" : {
+                    "enabled" : <?php echo $block->getSettingStatus('ajaxcart'); ?>,
+                    "actionAfterSuccess" : "<?php echo $block->getModuleConfigValue('ajaxcart/success_action'); ?>"
+                },
+                "ajaxWishList" : {
+                    "enabled" : <?php echo $block->getSettingStatus('ajaxwishlist'); ?>,
+                    "WishlistUrl": "<?php echo $block->getUrl('ajaxsuite/wishlist/add') ?>"
+                },
+                "ajaxCompare" : {
+                    "enabled" : <?php echo $block->getSettingStatus('ajaxcompare'); ?>,
+                    "CompareUrl": "<?php echo $block->getUrl('ajaxsuite/compare/add') ?>"
+                }
+            }
+    }
+}
+</script>
+<?php endif; ?>

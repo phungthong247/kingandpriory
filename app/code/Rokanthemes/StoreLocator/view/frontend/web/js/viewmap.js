@@ -1,6 +1,6 @@
 define([
     "jquery",
-    "jquery/ui"
+    "jquery-ui-modules/widget"
 ], function ($) {
 
     $.widget('mage.bstLocatorView', {
