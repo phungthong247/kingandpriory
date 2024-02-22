@@ -48,7 +48,7 @@ class Productchange extends \Magento\Framework\Model\AbstractModel
         return $this;
     }
 
-    public function setProductChange($productId, $oldValue='', $newValue='', $type){
+    public function setProductChange($productId, $oldValue='', $newValue='', $type = ''){
         if ($productId <= 0) {
             return $this;
         }

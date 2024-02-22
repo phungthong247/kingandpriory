@@ -122,7 +122,7 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper {
   
     public function getAddressFieldsJsonConfig()
     {
-        return \Zend_Json::encode($this->getAddressFieldsConfig());
+        return \Laminas\Json\Json::encode($this->getAddressFieldsConfig());
     }
     
     public function getFieldSortOrder($fieldKey){

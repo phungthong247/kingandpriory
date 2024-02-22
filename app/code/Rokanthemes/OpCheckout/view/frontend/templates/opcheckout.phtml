@@ -23,7 +23,7 @@
             }
         </script>
         <script>
-            window.checkoutConfig = <?php echo \Zend_Json::encode($block->getCheckoutConfig()); ?>;
+            window.checkoutConfig = <?php echo \Laminas\Json\Json::encode($block->getCheckoutConfig()); ?>;
             window.isCustomerLoggedIn = window.checkoutConfig.isCustomerLoggedIn;
             window.customerData = window.checkoutConfig.customerData;
         </script>

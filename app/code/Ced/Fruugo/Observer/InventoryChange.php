@@ -66,6 +66,9 @@ class InventoryChange implements ObserverInterface
      */
     public $json;
 
+    protected $scopeConfig;
+    protected $session;
+
     /**
      * ProductSaveAfter constructor.
      * @param \Magento\Framework\ObjectManagerInterface $objectManager

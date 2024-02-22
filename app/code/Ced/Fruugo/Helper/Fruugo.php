@@ -363,10 +363,10 @@ class Fruugo extends \Magento\Framework\App\Helper\AbstractHelper
      * ForFixPrice
      * @param null $price
      * @param null $fixedPrice
-     * @param string $configPrice
+     * @param null|string $configPrice
      * @return float|null
      */
-    public function forFixPrice($price = null, $fixedPrice = null, $configPrice)
+    public function forFixPrice($price = null, $fixedPrice = null, $configPrice = null)
     {
         if (is_numeric($fixedPrice) && ($fixedPrice != '')) {
             $fixedPrice =(float)$fixedPrice;
@@ -382,10 +382,10 @@ class Fruugo extends \Magento\Framework\App\Helper\AbstractHelper
      * ForPerPrice
      * @param null $price
      * @param null $percentPrice
-     * @param string $configPrice
+     * @param null|string $configPrice
      * @return float|null
      */
-    public function forPerPrice($price = null, $percentPrice = null, $configPrice)
+    public function forPerPrice($price = null, $percentPrice = null, $configPrice = null)
     {
         if (is_numeric($percentPrice)) {
             $percentPrice =(float)$percentPrice;

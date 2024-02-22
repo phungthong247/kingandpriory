@@ -172,8 +172,16 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * Magento\Framework\Message\Manager
      */
     public $messageManager;
+    protected $_responseFactory;
+    protected $_url;
+    protected $_productImageHelper;
+    protected $_storeManager;
+    protected $apiUserName;
+    protected $apiUserPassword;
+    protected $_ischeckmanufac;
+    protected $session;
+
     /**
-     * Data constructor.
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param \Magento\Framework\HTTP\Adapter\Curl $curl
@@ -181,8 +189,15 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Framework\Xml\Generator $generator
      * @param \Magento\Framework\Filesystem\DirectoryList $directoryList
      * @param \Magento\Framework\Filesystem\Io\File $fileIo
-     * @param \Ced\Fruugo\Helper\Signature $signature
-     * @param \Ced\Fruugo\Helper\Fruugo $fruugoHelper
+     * @param Signature $signature
+     * @param Fruugo $fruugoHelper
+     * @param Cache $cache
+     * @param \Magento\Backend\App\Action\Context $actionContext
+     * @param Manager $manager
+     * @param \Magento\Framework\UrlInterface $urlRedirect
+     * @param \Magento\Framework\App\ResponseFactory $responseFactory
+     * @param \Magento\Framework\App\Request\Http $request
+     * @param \Magento\Catalog\Helper\Image $productImageHelper
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
@@ -2091,7 +2106,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             $this->getCurrentProfile($parentProductId);
         else
             $this->getCurrentProfile($id); //if simple product
-        $validatedProduct = false;
+        $validatedProduct = [];
         if ($product == null) {
             $product = $this->objectManager->create('Magento\Catalog\Model\Product')
                 ->load($id)

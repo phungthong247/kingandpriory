@@ -37,7 +37,7 @@ class General
             {
                 if(isset($field['required']) && $field['required'] && !in_array($field['code'], ['country_id', 'postcode', 'region_id']))
                 {
-                    if (!\Zend_Validate::is($address->getData($field['code']), 'NotEmpty')) {
+                    if (!\Laminas\Validator\StaticValidator::execute($address->getData($field['code']), 'NotEmpty')) {
                         $errors[] = __('"%fieldName" is required. Enter and try again.', ['fieldName' => $field['code']]);
                     }
                 }

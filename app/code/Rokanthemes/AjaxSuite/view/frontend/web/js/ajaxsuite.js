@@ -147,7 +147,7 @@ define([
                         e.preventDefault();
                         if ($(this).closest('.product-info-main').length) {             //In product details page
                             var dataForm = $(this).closest('form#product_addtocart_form');
-                            var validate = dataForm.validation('isValid');
+                            var validate = dataForm.validation() && dataForm.validation('isValid');
                             if (validate) {
                                 var form = $(this).closest('form');
                                 self.ajaxCartSubmit(form);

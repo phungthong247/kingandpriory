@@ -18,6 +18,9 @@ class Add extends \Magento\Catalog\Controller\Product\Compare\Add
      */
     private $compareAvailability;
     protected $jsonHelper;
+    protected $_coreRegistry;
+    protected $layoutFactory;
+
     /**
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Catalog\Model\Product\Compare\ItemFactory $compareItemFactory

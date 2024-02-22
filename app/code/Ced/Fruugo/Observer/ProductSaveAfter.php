@@ -66,6 +66,9 @@ class ProductSaveAfter implements ObserverInterface
      */
     public $json;
 
+    protected $scopeConfig;
+    protected $session;
+
     /**
      * ProductSaveAfter constructor.
      * @param \Magento\Framework\ObjectManagerInterface $objectManager
@@ -180,7 +183,7 @@ class ProductSaveAfter implements ObserverInterface
           
             //capture stock change
             $orgQty = $product->getOrigData('stock_data');
-            $oldValue = (int)$orgQty['qty'];
+            $oldValue = isset($orgQty['qty']) ? (int)$orgQty['qty'] : null;
 
             $postData = $this->request->getParam('product');
             $newValue = (int)$postData['stock_data']['qty'];
@@ -223,10 +226,10 @@ class ProductSaveAfter implements ObserverInterface
         if($profile = $helper->getCurrentProfile($product->getId())){
             $pcode = $profile['profile_code'];
         }
-        $configPrice = trim($helper->getConfigData($pcode, 'fruugo_configuration/productinfo_map/fruugo_product_price'));
+        $configPrice = $helper->getConfigData($pcode, 'fruugo_configuration/productinfo_map/fruugo_product_price');
         $priceAttr = 'special_price';
         if($configPrice == 'differ'){
-            $priceAttr = trim($helper->getConfigData($pcode,'fruugo_configuration/productinfo_map/fruugo_different_price'));
+            $priceAttr = $helper->getConfigData($pcode,'fruugo_configuration/productinfo_map/fruugo_different_price');
             $origSpecialPrice = $product->getOrigData('special_price');
             $specialPrice = $product->getData('special_price');
         }
